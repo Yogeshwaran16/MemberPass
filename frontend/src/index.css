@@ -1,27 +1,194 @@
-@import "tailwindcss";
+/* ==========================================================================
+   MemberPass — EMERALD LUXE DESIGN SYSTEM
+   Palette:
+     Main Background:      #07130F
+     Secondary Background: #0D1F18
+     Card Background:      #132A20
+     Emerald:              #087A50
+     Bright Emerald:       #10A875
+     Metallic Gold:        #D4AF6E
+     Primary Text:         #F5F3EA
+     Secondary Text:       #A9B8AE
+   Typography:
+     Headings: Playfair Display
+     Body:     Plus Jakarta Sans
+   ========================================================================== */
 
-/* ----------------------------------------------------------------
-   MemberPass AI — Design System: Copper & Sand
-   ---------------------------------------------------------------- */
-@theme {
-  --color-charcoal:        #292B2C;
-  --color-charcoal-deep:   #1E2021;
-  --color-charcoal-light:  #3E4244;
-  --color-charcoal-muted:  #575A5D;
+:root {
+  /* ── Core Emerald Luxe Palette ── */
+  --bg-main:             #07130F;
+  --bg-secondary:        #0D1F18;
+  --bg-card:             #132A20;
+  --bg-card-hover:       #18382B;
+  --bg-surface-elevated: #1E4233;
 
-  --color-copper:          #C46A3B;
-  --color-copper-dark:     #A9562B;
-  --color-copper-light:    #DE8253;
-  --color-copper-subtle:   #F3E6DF;
+  /* ── Emerald System ── */
+  --emerald:             #087A50;
+  --emerald-bright:      #10A875;
+  --emerald-light:       #34D399;
+  --emerald-dark:        #055236;
+  --emerald-muted:       rgba(8, 122, 80, 0.22);
+  --emerald-glow:        rgba(16, 168, 117, 0.28);
+  --emerald-border:      rgba(16, 168, 117, 0.28);
+  --emerald-border-strong: rgba(16, 168, 117, 0.55);
 
-  --color-sand:            #D8A66A;
-  --color-sand-light:      #E8C18E;
-  --color-sand-soft:       #F5E8D6;
+  /* ── Metallic Gold System ── */
+  --gold:                #D4AF6E;
+  --gold-light:          #E8CC96;
+  --gold-pale:           #F3E4C8;
+  --gold-dark:           #A88245;
+  --gold-muted:          rgba(212, 175, 110, 0.16);
+  --gold-border:         rgba(212, 175, 110, 0.24);
+  --gold-border-strong:  rgba(212, 175, 110, 0.55);
 
-  --color-cream:           #F4EBDD;
-  --color-cream-light:     #FAF5ED;
-  --color-cream-canvas:    #FAF7F2;
+  /* ── Text System ── */
+  --text-primary:        #F5F3EA;
+  --text-secondary:      #A9B8AE;
+  --text-muted:          #7E9485;
+  --text-dim:            rgba(169, 184, 174, 0.55);
+  --text-gold:           #D4AF6E;
 
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans:  'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  /* ── Backwards Compatible Mappings ── */
+  --obsidian:            var(--bg-main);
+  --dark-burg:           var(--bg-secondary);
+  --wine:                var(--emerald);
+  --wine-mid:            var(--emerald-bright);
+  --wine-light:          #15BA83;
+  --ivory:               var(--text-primary);
+  --ivory-muted:         var(--text-secondary);
+  --ivory-dim:           var(--text-dim);
+  --ivory-faint:         rgba(245, 243, 234, 0.08);
+  --surface-0:           var(--bg-main);
+  --surface-1:           var(--bg-secondary);
+  --surface-2:           var(--bg-card);
+  --surface-3:           var(--bg-card-hover);
+  --surface-glass:       rgba(19, 42, 32, 0.65);
+  --surface-glass-hover: rgba(24, 56, 43, 0.85);
+  --text-main:           var(--text-primary);
+
+  /* ── Gradients ── */
+  --grad-hero:           linear-gradient(165deg, #07130F 0%, #0D1F18 50%, #132A20 100%);
+  --grad-card:           linear-gradient(145deg, rgba(19,42,32,0.92) 0%, rgba(13,31,24,0.96) 100%);
+  --grad-card-featured:  linear-gradient(145deg, rgba(24,56,43,0.95) 0%, rgba(13,31,24,0.98) 100%);
+  --grad-gold:           linear-gradient(135deg, #E8CC96 0%, #D4AF6E 50%, #A88245 100%);
+  --grad-emerald:        linear-gradient(135deg, #087A50 0%, #10A875 100%);
+  --grad-emerald-gold:   linear-gradient(135deg, #10A875 0%, #D4AF6E 100%);
+  --grad-brand:          linear-gradient(135deg, #087A50 0%, #0D1F18 100%);
+  --grad-glass:          linear-gradient(135deg, rgba(212,175,110,0.08) 0%, rgba(16,168,117,0.04) 100%);
+
+  /* ── Borders ── */
+  --border-gold:         1px solid rgba(212, 175, 110, 0.22);
+  --border-gold-strong:  1px solid rgba(212, 175, 110, 0.55);
+  --border-emerald:      1px solid rgba(16, 168, 117, 0.25);
+  --border-glass:        1px solid rgba(255, 255, 255, 0.08);
+
+  /* ── Shadows ── */
+  --shadow-sm:           0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-md:           0 8px 28px rgba(0, 0, 0, 0.55);
+  --shadow-lg:           0 20px 50px rgba(0, 0, 0, 0.7);
+  --shadow-gold:         0 8px 28px rgba(212, 175, 110, 0.16);
+  --shadow-gold-btn:     0 6px 24px rgba(212, 175, 110, 0.3);
+  --shadow-emerald:      0 8px 28px rgba(16, 168, 117, 0.24);
+
+  /* ── Typography ── */
+  --font-serif:          'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:           'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:           'JetBrains Mono', 'Courier New', monospace;
+  --font-crest:          'Cinzel', serif;
+
+  /* ── Radius ── */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --transition-fast:   0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow:   0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Reset & Global Box Sizing ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+  font-size: 16px;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb {
+  background: var(--emerald-dark);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--emerald); }
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Typography Defaults ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--emerald-bright);
+  outline-offset: 3px;
 }
