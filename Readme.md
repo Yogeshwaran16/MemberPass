@@ -4,7 +4,8 @@
 
 ## 🌐 Live Demo
 
-[Visit MemberPass](https://member-pass-one.vercel.app/)
+- [Visit MemberPass](https://member-pass-one.vercel.app/)
+- [View Project Demo on Google Drive](https://drive.google.com/file/d/1ouJMw_JM269OKIQe2eAkfXXbVzZPLNl1/view?usp=sharing)
 
 ## 📌 About the Project
 
@@ -87,7 +88,7 @@ Create a `.env` file inside the `frontend` folder and add:
 VITE_API_URL=https://memberpass-2i1w.onrender.com/api
 ```
 
-For local backend development, you can use:
+For local backend development, use:
 
 ```env
 VITE_API_URL=http://localhost:5000/api
@@ -103,7 +104,7 @@ The frontend will be available at the local URL displayed in your terminal.
 
 ### 6. Install Backend Dependencies
 
-Open another terminal and navigate to the backend folder:
+Open another terminal from the project root and run:
 
 ```bash
 cd MemberPass/backend
@@ -127,6 +128,8 @@ Configure the required Razorpay credentials in the backend environment if paymen
 
 ### 8. Run the Backend
 
+From the backend folder, run:
+
 ```bash
 npm run dev
 ```
@@ -136,6 +139,7 @@ The backend server will run on the configured port.
 ## 🔗 Project Links
 
 - **Live Website:** https://member-pass-one.vercel.app/
+- **Project Demo:** https://drive.google.com/file/d/1ouJMw_JM269OKIQe2eAkfXXbVzZPLNl1/view?usp=sharing
 - **Backend API:** https://memberpass-2i1w.onrender.com
 - **Backend Health Check:** https://memberpass-2i1w.onrender.com/api/health
 - **GitHub Repository:** https://github.com/Yogeshwaran16/MemberPass
