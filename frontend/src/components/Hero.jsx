@@ -82,27 +82,23 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Visual Composition with Coastal Yoga Image */}
+        {/* Right Column: Visual Composition with Pure CSS/SVG Elements */}
         <div className="hero-visual-wrapper">
-          <div className="hero-card-frame">
-            <div className="hero-image-container">
-              <img
-                src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=80"
-                alt="Serene Mediterranean coastal wellness and yoga retreat"
-                className="hero-main-img"
-                loading="eager"
-              />
-              <div className="hero-img-overlay" />
+          <div className="hero-card-frame" style={{ background: 'linear-gradient(145deg, #18382D 0%, #244B3C 100%)', borderRadius: '24px', padding: '36px', border: '1px solid rgba(197,168,120,0.35)', color: '#FFFFFF' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <span style={{ fontSize: '11px', color: '#C5A878', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 600 }}>VERIFIED DIGITAL PASS</span>
+              <span style={{ background: 'rgba(197,168,120,0.2)', color: '#C5A878', padding: '4px 10px', borderRadius: '12px', fontSize: '10px', fontWeight: 700 }}>NFC ACTIVE</span>
             </div>
-
-            {/* Floating Mediterranean Yoga Pass Card */}
-            <div className="floating-wellness-card retreat-card">
-              <div className="card-top-icon">🧘‍♀️</div>
+            <div style={{ fontFamily: 'DM Serif Display, Georgia, serif', fontSize: '1.6rem', marginBottom: '6px' }}>Alexander Vance</div>
+            <div style={{ fontSize: '0.88rem', color: '#EFEDE5', marginBottom: '24px' }}>Standard Membership &bull; 25 Sessions Active</div>
+            <div style={{ padding: '16px', background: 'rgba(255,255,255,0.08)', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div className="retreat-title">Sunrise Vinyasa by the Sea</div>
-                <div className="retreat-meta">Daily at 07:00 AM &bull; Coastal Deck</div>
+                <span style={{ fontSize: '10px', color: '#C5A878', display: 'block' }}>GATE VERIFICATION</span>
+                <strong style={{ fontSize: '13px' }}>Instant 0.38s Optical Check-in</strong>
               </div>
+              <span style={{ background: '#244B3C', color: '#A8B7A2', padding: '4px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 600 }}>CLEARED</span>
             </div>
+          </div>
 
             {/* Floating Pass Badge */}
             <div className="floating-wellness-card member-pass-chip">
@@ -122,7 +118,6 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   )
 }

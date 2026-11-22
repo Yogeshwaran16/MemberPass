@@ -217,7 +217,7 @@ export default function PlansSection({ currentUser, onRequireAuth, onPaymentSucc
           contact: currentUser.phone || ''
         },
         theme: {
-          color: '#234B3C'
+          color: '#244B3C'
         },
         modal: {
           ondismiss: () => {

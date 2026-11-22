@@ -95,20 +95,11 @@ export default function About() {
           </div>
         </div>
 
-        {/* Coastal Imagery Banner */}
-        <div className="about-coastal-banner">
-          <div className="banner-image-wrapper">
-            <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80"
-              alt="Mindful yoga meditation by the Mediterranean sea"
-              className="banner-image"
-              loading="lazy"
-            />
-            <div className="banner-overlay-caption">
-              <h4>Where Ancient Mindfulness Meets Cutting-Edge Technology</h4>
-              <p>Designed for yoga studios, wellness resorts, and holistic healing communities.</p>
-            </div>
-          </div>
+        {/* Pure CSS & SVG Architecture Banner */}
+        <div className="about-coastal-banner" style={{ background: 'linear-gradient(135deg, #18382D 0%, #244B3C 100%)', borderRadius: '24px', padding: '40px 32px', border: '1px solid rgba(197,168,120,0.35)', textAlign: 'center' }}>
+          <span style={{ fontSize: '11px', color: '#C5A878', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 600 }}>SYSTEM ARCHITECTURE</span>
+          <h4 style={{ fontFamily: 'DM Serif Display, Georgia, serif', fontSize: '1.75rem', color: '#FFFFFF', margin: '8px 0 6px' }}>Where Ancient Mindfulness Meets Cutting-Edge Technology</h4>
+          <p style={{ color: '#EFEDE5', maxWidth: '640px', margin: '0 auto', fontSize: '0.95rem' }}>Designed for yoga studios, wellness resorts, and holistic healing communities.</p>
         </div>
 
         {/* AI Pillars Grid */}

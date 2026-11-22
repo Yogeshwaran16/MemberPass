@@ -6,6 +6,7 @@ import MemberDashboard from './components/MemberDashboard'
 import QRPassModal from './components/QRPassModal'
 import StaffDashboard from './components/StaffDashboard'
 import AIAssistantPage from './components/AIAssistantPage'
+import DigitalPassCard from './components/DigitalPassCard'
 import { getStoredUser, authApi, aiApi } from './services/api'
 
 export default function App() {
@@ -133,7 +134,7 @@ export default function App() {
           <a
             href="#home"
             className="brand-logo"
-            aria-label="MemberPass Mediterranean Coastal Wellness Home"
+            aria-label="MemberPass Intelligent Membership Platform"
             onClick={(e) => {
               e.preventDefault()
               setCurrentView('landing')
@@ -142,17 +143,15 @@ export default function App() {
           >
             <span className="coastal-emblem">
               <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
-                <circle cx="20" cy="20" r="19" fill="#F7F5EF" stroke="#C3A574" strokeWidth="1.5" />
-                <circle cx="20" cy="13" r="4.5" fill="#C3A574" />
-                <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#234B3C" />
-                <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#234B3C" opacity="0.85" />
-                <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#234B3C" opacity="0.85" />
-                <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#C3A574" strokeWidth="1.5" strokeLinecap="round" />
+                <rect width="40" height="40" rx="10" fill="#F7F6F2" stroke="#C5A878" strokeWidth="1.5" />
+                <path d="M11 28V12L18 21L25 12V28" stroke="#244B3C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M25 14H29C30.6569 14 32 15.3431 32 17C32 18.6569 30.6569 20 29 20H25" stroke="#C5A878" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="20" cy="28" r="1.5" fill="#C5A878" />
               </svg>
             </span>
             <div className="brand-text">
               <span className="brand-name">Member<span className="brand-accent">Pass</span></span>
-              <span className="brand-tag">YOGA • WELLNESS • RETREATS</span>
+              <span className="brand-tag">MEMBERSHIP PLATFORM</span>
             </div>
           </a>
 
@@ -387,24 +386,25 @@ export default function App() {
       ) : (
         <main className="main-viewport">
           {/* =========================================================================
-            2. HERO SECTION - SPACIOUS FULL-WIDTH (45% LEFT / 55% RIGHT SPLIT)
+            2. HERO SECTION - ASYMMETRIC SAAS HERO (NO IMAGES / PURE UI COMPOSITION)
             ========================================================================= */}
           <section className="hero-section" id="home">
             <div className="hero-grid">
-              {/* LEFT SIDE (45%): Brand Label, Headline, Paragraph, CTAs */}
+              {/* LEFT SIDE: Brand Label, Headline, Paragraph, CTAs, Trust Indicators */}
               <div className="hero-text-content">
                 <div className="coastal-eyebrow">
-                  <span className="eyebrow-text">YOGA • WELLNESS • MEMBERSHIP</span>
+                  <span className="eyebrow-text">✦ NEXT-GENERATION MEMBERSHIP PLATFORM</span>
                 </div>
 
                 <h1 className="hero-headline">
-                  Find Your Balance.
+                  Membership,
                   <br />
-                  <span className="serif-highlight">Elevate Your Wellbeing.</span>
+                  <span className="serif-highlight">Reimagined.</span>
                 </h1>
 
+                <p className="hero-subheading">One seamless experience for every member.</p>
                 <p className="hero-description">
-                  Discover a more mindful lifestyle with personalized wellness experiences, exclusive membership benefits and a sanctuary designed for your wellbeing.
+                  Manage memberships, digital passes, member engagement and intelligent assistance through one elegant platform.
                 </p>
 
                 <div className="hero-ctas">
@@ -412,8 +412,8 @@ export default function App() {
                     <span>Explore Membership</span>
                     <span className="btn-arrow">→</span>
                   </a>
-                  <a href="#about" className="btn-secondary btn-lg">
-                    <span>Discover Wellness</span>
+                  <a href="#features" className="btn-secondary btn-lg">
+                    <span>View Capabilities</span>
                     <span className="btn-chevron">▾</span>
                   </a>
                 </div>
@@ -421,57 +421,63 @@ export default function App() {
                 <div className="hero-trust-bar">
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
+                    <span>Instant Digital QR Passes</span>
+                  </div>
+                  <div className="trust-divider"></div>
+                  <div className="trust-pill">
+                    <span className="pill-check">✓</span>
                     <span>2,400+ Active Members</span>
                   </div>
                   <div className="trust-divider"></div>
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
-                    <span>Instant Digital QR Pass</span>
-                  </div>
-                  <div className="trust-divider"></div>
-                  <div className="trust-pill">
-                    <span className="pill-check">✓</span>
-                    <span>18,500+ Guided Sessions</span>
+                    <span>Sub-Second Verification</span>
                   </div>
                 </div>
               </div>
 
-              {/* RIGHT SIDE (55%): Large Mediterranean Yoga Retreat Photograph */}
+              {/* RIGHT SIDE: Custom UI Composition (Pure Frontend Elements - NO IMAGES) */}
               <div className="hero-visual-col">
-                <div className="hero-image-stage">
-                  <div className="coastal-image-container">
-                    <img
-                      src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1600&q=85"
-                      alt="Serene Mediterranean coastal yoga retreat in natural sunlight"
-                      className="hero-retreat-photo"
-                      loading="eager"
-                    />
-                    <div className="hero-photo-gradient-veil" />
+                <div className="hero-ui-stage">
+                  {/* Subtle Geometric Background Shapes & Radial Gradients */}
+                  <div className="hero-grid-mesh" />
+                  <div className="hero-ambient-orb orb-primary" />
+                  <div className="hero-ambient-orb orb-gold" />
+                  <div className="hero-geo-ring ring-outer" />
+                  <div className="hero-geo-ring ring-inner" />
+
+                  {/* Floating Digital Pass Card */}
+                  <div className="floating-card-wrapper">
+                    <DigitalPassCard />
                   </div>
 
-                  {/* Subtle Organic Coastal Badge 1 */}
-                  <div className="floating-retreat-card top-float">
-                    <div className="retreat-icon">🧘‍♀️</div>
-                    <div className="retreat-info">
-                      <strong>Sunrise Vinyasa by the Sea</strong>
-                      <p>Daily at 07:00 AM • Coastal Deck</p>
+                  {/* Floating Live Telemetry Badge 1: Instant Optical Scan */}
+                  <div className="floating-ui-badge badge-scan">
+                    <span className="status-pulse-dot" />
+                    <div className="badge-text-group">
+                      <span className="badge-title">Optical Verification</span>
+                      <span className="badge-subtitle">0.38s Latency &bull; Gate Authorized</span>
+                    </div>
+                    <span className="badge-chip-ok">CLEARED</span>
+                  </div>
+
+                  {/* Floating Live Telemetry Badge 2: AI Retention Forecast */}
+                  <div className="floating-ui-badge badge-ai">
+                    <span className="badge-ai-sparkle">✦</span>
+                    <div className="badge-text-group">
+                      <span className="badge-title">AI Retention Forecast</span>
+                      <span className="badge-subtitle">98.4% Monthly Retention &bull; 38 Renewals Queued</span>
                     </div>
                   </div>
 
-                  {/* Subtle Organic Coastal Badge 2 */}
-                  <div className="floating-retreat-card bottom-float">
-                    <div className="pass-chip-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                        <path d="M10 10h4v4h-4z" />
-                      </svg>
+                  {/* Floating Live Telemetry Badge 3: Session Utilization */}
+                  <div className="floating-ui-badge badge-usage">
+                    <div className="usage-meter-ring">
+                      <span className="usage-val">72%</span>
                     </div>
-                    <div className="pass-chip-info">
-                      <span className="pass-label">Verified MemberPass</span>
-                      <strong>Coastal Sanctuary Tier</strong>
+                    <div className="badge-text-group">
+                      <span className="badge-title">Standard Tier Usage</span>
+                      <span className="badge-subtitle">18 of 25 Sessions Completed</span>
                     </div>
                   </div>
                 </div>
@@ -487,54 +493,89 @@ export default function App() {
               <div className="stat-card">
                 <span className="stat-number">2,400+</span>
                 <span className="stat-label">Active Members</span>
-                <p className="stat-detail">Mindful practitioners participating in daily yoga and meditation sessions</p>
+                <p className="stat-detail">Engaged members utilizing digital NFC passes and contactless QR check-ins</p>
               </div>
               <div className="stat-divider-vertical"></div>
               <div className="stat-card">
                 <span className="stat-number">18,500+</span>
-                <span className="stat-label">Wellness Sessions</span>
-                <p className="stat-detail">Guided studio practices and personalized wellness experiences hosted</p>
+                <span className="stat-label">Verified Sessions</span>
+                <p className="stat-detail">Seamless entrance verifications logged with sub-second gate validation</p>
               </div>
               <div className="stat-divider-vertical"></div>
               <div className="stat-card">
                 <span className="stat-number">15+</span>
-                <span className="stat-label">Membership Benefits</span>
-                <p className="stat-detail">Exclusive passes, priority bookings, and private wellness consultations</p>
+                <span className="stat-label">Membership Capabilities</span>
+                <p className="stat-detail">Custom tiers, automated reminders, absentee alerts, and AI co-pilot insights</p>
               </div>
               <div className="stat-divider-vertical"></div>
               <div className="stat-card">
                 <span className="stat-number">99.4%</span>
                 <span className="stat-label">Member Satisfaction</span>
-                <p className="stat-detail">Rated by sanctuary practitioners for seamless QR digital check-in poise</p>
+                <p className="stat-detail">Consistently rated for frictionless onboarding and rapid mobile entry poise</p>
               </div>
             </div>
           </section>
 
           {/* =========================================================================
-            3. ABOUT SECTION - MODERN WELLNESS SANCTUARY
+            3. ABOUT SECTION - MODERN SAAS ARCHITECTURE (NO PHOTOS)
             ========================================================================= */}
           <section className="section-padding about-section" id="about">
             <div className="section-header text-center">
               <span className="section-kicker">ABOUT MEMBERPASS</span>
-              <h2 className="section-heading">Where Mindfulness Meets Modern Sanctuary</h2>
+              <h2 className="section-heading">Built for Intelligent Membership Operations</h2>
               <p className="section-subtext">
-                Traditional studios are encumbered by paper sign-in sheets, fragmented rosters,
-                and manual class counting. MemberPass combines intelligent assistance with organized
-                membership information, creating a serene, simple and efficient digital experience for practitioners.
+                Traditional studios and clubs are encumbered by paper sign-in sheets, fragmented rosters,
+                and manual headcounts. MemberPass combines intelligent assistance with organized
+                membership information, creating a simple, modern and efficient digital operating experience.
               </p>
             </div>
 
-            {/* Sanctuary Banner Image */}
-            <div className="about-hero-banner">
-              <img
-                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=85"
-                alt="Mindful yoga sanctuary meditation"
-                className="about-banner-img"
-                loading="lazy"
-              />
-              <div className="about-banner-caption">
-                <h3>Where Ancient Mindfulness Meets Cutting-Edge Technology</h3>
-                <p>Designed for yoga studios, wellness sanctuaries, and holistic healing communities.</p>
+            {/* Pure CSS & SVG Architecture Blueprint / Process Diagram (NO PHOTOS) */}
+            <div className="about-architecture-card">
+              <div className="arch-header">
+                <div className="arch-header-left">
+                  <span className="arch-badge">SYSTEM ARCHITECTURE</span>
+                  <h3 className="arch-title">Unified Membership Operating Pipeline</h3>
+                  <p className="arch-desc">From mobile credential issuance to gate check-in and automated retention intelligence.</p>
+                </div>
+                <div className="arch-telemetry-pills">
+                  <span className="arch-pill"><i className="fa-solid fa-bolt"></i> &lt; 400ms Verification</span>
+                  <span className="arch-pill"><i className="fa-solid fa-shield-halved"></i> AES-256 Token Encryption</span>
+                  <span className="arch-pill"><i className="fa-solid fa-server"></i> 99.98% Gateway Uptime</span>
+                </div>
+              </div>
+
+              <div className="arch-flow-diagram">
+                <div className="flow-node">
+                  <div className="node-icon"><i className="fa-solid fa-mobile-screen"></i></div>
+                  <span className="node-step">STAGE 01</span>
+                  <strong className="node-name">Member Pass</strong>
+                  <span className="node-desc">Mobile NFC &amp; Dynamic QR</span>
+                </div>
+                <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
+
+                <div className="flow-node">
+                  <div className="node-icon"><i className="fa-solid fa-key"></i></div>
+                  <span className="node-step">STAGE 02</span>
+                  <strong className="node-name">Cryptographic Auth</strong>
+                  <span className="node-desc">Zero-Trust Identity Engine</span>
+                </div>
+                <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
+
+                <div className="flow-node active-node">
+                  <div className="node-icon"><i className="fa-solid fa-qrcode"></i></div>
+                  <span className="node-step">STAGE 03</span>
+                  <strong className="node-name">Optical Reader</strong>
+                  <span className="node-desc">Sub-Second Gate Clearance</span>
+                </div>
+                <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
+
+                <div className="flow-node">
+                  <div className="node-icon"><i className="fa-solid fa-chart-line"></i></div>
+                  <span className="node-step">STAGE 04</span>
+                  <strong className="node-name">AI Retention Core</strong>
+                  <span className="node-desc">Automated Renewal Signals</span>
+                </div>
               </div>
             </div>
 
@@ -543,10 +584,10 @@ export default function App() {
                 <div className="box-icon">
                   <i className="fa-solid fa-gem"></i>
                 </div>
-                <h3 className="box-title">Sacred Sanctuary Experience</h3>
+                <h3 className="box-title">Frictionless Digital Passes</h3>
                 <p className="box-desc">
-                  Elevate your practitioner touchpoints from their very first class. Deliver serene,
-                  contactless digital QR passes that reflect the calm beauty of your sanctuary space.
+                  Elevate member touchpoints from their very first visit. Deliver serene,
+                  contactless digital QR passes that reflect modern design excellence.
                 </p>
               </div>
 
@@ -554,10 +595,10 @@ export default function App() {
                 <div className="box-icon">
                   <i className="fa-solid fa-brain"></i>
                 </div>
-                <h3 className="box-title">AI-Powered Wellness Assistance</h3>
+                <h3 className="box-title">AI-Powered Member Intelligence</h3>
                 <p className="box-desc">
-                  Our embedded machine learning model detects attendance trends early, triggers gracious
-                  renewal invitations, and provides actionable class intelligence to studio managers.
+                  Our embedded machine learning model detects attendance trends early, triggers automated
+                  renewal invitations, and provides actionable metrics to operations directors.
                 </p>
               </div>
 
@@ -565,10 +606,10 @@ export default function App() {
                 <div className="box-icon">
                   <i className="fa-solid fa-shield-halved"></i>
                 </div>
-                <h3 className="box-title">Secure Digital Membership Management</h3>
+                <h3 className="box-title">Encrypted Enterprise Security</h3>
                 <p className="box-desc">
-                  Member records, sensitive profile attributes, and class attendance logs are strictly protected
-                  with secure digital verification and granular role-based administrative controls.
+                  Member records, sensitive profile attributes, and attendance logs are strictly protected
+                  with zero-trust cryptographic verification and granular role-based administrative controls.
                 </p>
               </div>
             </div>
@@ -1129,25 +1170,23 @@ export default function App() {
               <a href="#home" className="brand-logo footer-logo" onClick={scrollToTop}>
                 <span className="coastal-emblem light">
                   <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
-                    <circle cx="20" cy="20" r="19" fill="#17382D" stroke="#C3A574" strokeWidth="1.5" />
-                    <circle cx="20" cy="13" r="4.5" fill="#C3A574" />
-                    <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#A9B8A3" />
-                    <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#234B3C" />
-                    <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#234B3C" />
-                    <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#C3A574" strokeWidth="1.5" strokeLinecap="round" />
+                    <rect width="40" height="40" rx="10" fill="#18382D" stroke="#C5A878" strokeWidth="1.5" />
+                    <path d="M11 28V12L18 21L25 12V28" stroke="#C5A878" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M25 14H29C30.6569 14 32 15.3431 32 17C32 18.6569 30.6569 20 29 20H25" stroke="#C5A878" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="20" cy="28" r="1.5" fill="#C5A878" />
                   </svg>
                 </span>
                 <div className="brand-text">
                   <span className="brand-name light">Member<span className="brand-accent light">Pass</span></span>
-                  <span className="brand-tag light">YOGA • WELLNESS • RETREATS</span>
+                  <span className="brand-tag light">MEMBERSHIP PLATFORM</span>
                 </div>
               </a>
               <p className="footer-tagline">
-                The premier digital identity, class tracking, and membership management platform for contemporary yoga studios, wellness sanctuaries, and retreats.
+                The premier digital identity, pass tracking, and membership operating platform for modern fitness, wellness, and membership organizations.
               </p>
               <div className="footer-sanctuary-status">
                 <span className="status-live-dot"></span>
-                <span>Sanctuary Network Live &amp; Verified</span>
+                <span>System Gateway Live &amp; Encrypted</span>
               </div>
             </div>
 

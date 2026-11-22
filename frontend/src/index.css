@@ -18,64 +18,64 @@
    ========================================================================== */
 
 :root {
-  /* ── Core Wellness Palette ── */
-  --bg-primary:          #F7F5EF;
-  --bg-secondary:        #EDE9DF;
+  /* ── Core Palette (Exact User Specification) ── */
+  --bg-primary:          #F7F6F2;
+  --bg-secondary:        #EFEDE5;
   --bg-card:             #FFFFFF;
-  --bg-card-warm:        #FAF8F3;
+  --bg-card-warm:        #FAF9F5;
   --bg-surface-elevated: #F2EFE8;
 
   /* ── Greens System ── */
-  --forest-green:        #234B3C;
-  --forest-green-hover:  #1d3e32;
-  --forest-green-light:  rgba(35, 75, 60, 0.08);
-  --deep-green:          #17382D;
+  --forest-green:        #244B3C;
+  --forest-green-hover:  #1d3d31;
+  --forest-green-light:  rgba(36, 75, 60, 0.08);
+  --deep-green:          #18382D;
   --deep-green-dark:     #0f261e;
-  --sage:                #A9B8A3;
-  --sage-light:          rgba(169, 184, 163, 0.22);
-  --sage-border:         rgba(169, 184, 163, 0.35);
+  --sage:                #A8B7A2;
+  --sage-light:          rgba(168, 183, 162, 0.22);
+  --sage-border:         rgba(168, 183, 162, 0.35);
 
-  /* ── Champagne Gold System ── */
-  --champagne-gold:      #C3A574;
+  /* ── Accent / Champagne Gold System ── */
+  --champagne-gold:      #C5A878;
   --gold-light:          #D8BE93;
   --gold-pale:           #F2E8D7;
-  --gold-dark:           #A58655;
-  --gold-muted:          rgba(195, 165, 116, 0.16);
-  --gold-border:         rgba(195, 165, 116, 0.32);
+  --gold-dark:           #A88B58;
+  --gold-muted:          rgba(197, 168, 120, 0.16);
+  --gold-border:         rgba(197, 168, 120, 0.32);
 
   /* ── Text System ── */
-  --text-primary:        #242924;
+  --text-primary:        #222820;
   --text-secondary:      #555C55;
-  --text-muted:          #77786F;
+  --text-muted:          #777970;
   --text-faint:          #9E9F97;
   --text-white:          #FFFFFF;
-  --text-on-dark:        #F7F5EF;
+  --text-on-dark:        #F7F6F2;
 
   /* ── Gradients ── */
-  --grad-forest:         linear-gradient(135deg, #234B3C 0%, #17382D 100%);
-  --grad-forest-card:    linear-gradient(145deg, #17382D 0%, #0F261E 100%);
-  --grad-gold:           linear-gradient(135deg, #D8BE93 0%, #C3A574 50%, #A58655 100%);
-  --grad-hero-soft:      linear-gradient(180deg, #F7F5EF 0%, #EDE9DF 100%);
-  --grad-sage-soft:      linear-gradient(135deg, rgba(169, 184, 163, 0.15) 0%, rgba(237, 233, 223, 0.4) 100%);
+  --grad-forest:         linear-gradient(135deg, #244B3C 0%, #18382D 100%);
+  --grad-forest-card:    linear-gradient(145deg, #18382D 0%, #0F261E 100%);
+  --grad-gold:           linear-gradient(135deg, #D8BE93 0%, #C5A878 50%, #A88B58 100%);
+  --grad-hero-soft:      linear-gradient(180deg, #F7F6F2 0%, #EFEDE5 100%);
+  --grad-sage-soft:      linear-gradient(135deg, rgba(168, 183, 162, 0.15) 0%, rgba(239, 237, 229, 0.4) 100%);
 
   /* ── Borders ── */
-  --border-subtle:       1px solid rgba(35, 75, 60, 0.1);
-  --border-card:         1px solid rgba(35, 75, 60, 0.12);
-  --border-gold:         1px solid rgba(195, 165, 116, 0.35);
-  --border-sage:         1px solid rgba(169, 184, 163, 0.35);
+  --border-subtle:       1px solid rgba(36, 75, 60, 0.1);
+  --border-card:         1px solid rgba(36, 75, 60, 0.12);
+  --border-gold:         1px solid rgba(197, 168, 120, 0.35);
+  --border-sage:         1px solid rgba(168, 183, 162, 0.35);
 
   /* ── Shadows ── */
-  --shadow-xs:           0 1px 4px rgba(23, 56, 45, 0.04);
-  --shadow-sm:           0 2px 8px rgba(23, 56, 45, 0.05);
-  --shadow-md:           0 8px 24px rgba(23, 56, 45, 0.07);
-  --shadow-lg:           0 18px 45px rgba(23, 56, 45, 0.1);
-  --shadow-card:         0 12px 36px rgba(23, 56, 45, 0.06);
-  --shadow-button:       0 6px 20px rgba(35, 75, 60, 0.25);
-  --shadow-gold-btn:     0 6px 20px rgba(195, 165, 116, 0.3);
+  --shadow-xs:           0 1px 4px rgba(24, 56, 45, 0.04);
+  --shadow-sm:           0 2px 8px rgba(24, 56, 45, 0.05);
+  --shadow-md:           0 8px 24px rgba(24, 56, 45, 0.07);
+  --shadow-lg:           0 18px 45px rgba(24, 56, 45, 0.1);
+  --shadow-card:         0 12px 36px rgba(24, 56, 45, 0.06);
+  --shadow-button:       0 6px 20px rgba(36, 75, 60, 0.25);
+  --shadow-gold-btn:     0 6px 20px rgba(197, 168, 120, 0.3);
 
   /* ── Typography Fonts ── */
-  --font-serif:          'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-sans:           'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif:          'DM Serif Display', 'Playfair Display', Georgia, serif;
+  --font-sans:           'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono:           'JetBrains Mono', monospace;
   --font-crest:          'Cinzel', serif;
 
