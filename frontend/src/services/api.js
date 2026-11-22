@@ -1,100 +1,72 @@
 
-const API_BASE = (
-  import.meta.env.VITE_API_URL ||
-  "https://memberpass-2i1w.onrender.com/api"
-).replace(/\/+$/, "");
+const API_BASE = import.meta.env.VITE_API_URL || 'https://memberpass.onrender.com/api';
 
-// Authentication token helpers
 export const setAuthToken = (token) => {
   if (token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token);
   } else {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
   }
 };
 
 export const getAuthToken = () => {
-  return localStorage.getItem("token");
+  return localStorage.getItem('token');
 };
 
-// Stored user helpers
 export const setStoredUser = (user) => {
   if (user) {
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   } else {
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
   }
 };
 
 export const getStoredUser = () => {
   try {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
-  } catch (error) {
-    console.error("Failed to parse user from localStorage:", error);
+  } catch (e) {
+    console.error('Failed to parse user from localStorage', e);
     return null;
   }
 };
 
-// Clear authentication data
 export const clearAuth = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
 };
 
-// Common authorization headers
 export const authHeaders = () => {
-  const token = getAuthToken();
+  const token = localStorage.getItem('token');
 
   return {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   };
 };
 
-// Common API response handler
-const handleResponse = async (response) => {
-  const data = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    return {
-      success: false,
-      message: data.message || `Request failed (${response.status})`,
-      status: response.status
-    };
-  }
-
-  return data;
-};
-
-// AUTH API
 export const authApi = {
   register: async (userDataOrName, maybeEmail, maybePassword, maybePhone) => {
     try {
       const userData =
-        typeof userDataOrName === "object" && userDataOrName !== null
+        typeof userDataOrName === 'object' && userDataOrName !== null
           ? userDataOrName
           : {
-            name: userDataOrName,
-            email: maybeEmail,
-            password: maybePassword,
-            phone: maybePhone
-          };
+              name: userDataOrName,
+              email: maybeEmail,
+              password: maybePassword,
+              phone: maybePhone
+            };
 
-      const response = await fetch(`${API_BASE}/auth/register`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify(userData)
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("authApi.register error:", error);
-
-      return {
-        success: false,
-        message: "Unable to connect to registration server"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('authApi.register error:', err);
+      return { success: false, message: 'Unable to connect to registration server' };
     }
   },
 
@@ -105,280 +77,302 @@ export const authApi = {
   login: async (emailOrCredentials, maybePassword) => {
     try {
       const credentials =
-        typeof emailOrCredentials === "object" &&
-          emailOrCredentials !== null
+        typeof emailOrCredentials === 'object' && emailOrCredentials !== null
           ? emailOrCredentials
-          : {
-            email: emailOrCredentials,
-            password: maybePassword
-          };
+          : { email: emailOrCredentials, password: maybePassword };
 
-      const response = await fetch(`${API_BASE}/auth/login`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify(credentials)
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("authApi.login error:", error);
-
-      return {
-        success: false,
-        message: "Unable to connect to authentication server"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('authApi.login error:', err);
+      return { success: false, message: 'Unable to connect to authentication server' };
     }
   },
 
   logout: async () => {
     try {
-      const response = await fetch(`${API_BASE}/auth/logout`, {
-        method: "POST",
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
         headers: authHeaders()
       });
-
-      const data = await handleResponse(response);
-
-      clearAuth();
-      return data;
-    } catch (error) {
-      console.warn("Logout API call failed:", error);
-
-      clearAuth();
-      return { success: true };
+    } catch (e) {
+      console.warn('Logout API call failed, continuing local clear', e);
     }
+    clearAuth();
+    return { success: true };
   }
 };
 
-// MEMBERSHIP PLAN API
 export const planApi = {
   getPlans: async () => {
     try {
-      const response = await fetch(`${API_BASE}/plans`);
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("planApi.getPlans error:", error);
-
-      return {
-        success: false,
-        message: "Unable to fetch plans",
-        plans: []
-      };
+      const res = await fetch(`${API_BASE}/plans`);
+      return await res.json();
+    } catch (err) {
+      console.error('planApi.getPlans error:', err);
+      return { success: false, message: 'Unable to fetch plans', plans: [] };
     }
   },
 
   getPlanById: async (id) => {
     try {
-      const response = await fetch(`${API_BASE}/plans/${id}`);
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("planApi.getPlanById error:", error);
-
-      return {
-        success: false,
-        message: "Unable to fetch plan"
-      };
+      const res = await fetch(`${API_BASE}/plans/${id}`);
+      return await res.json();
+    } catch (err) {
+      console.error('planApi.getPlanById error:', err);
+      return { success: false, message: 'Unable to fetch plan' };
     }
   }
 };
 
-// MEMBER API
 export const memberApi = {
   getProfile: async () => {
     try {
-      const response = await fetch(`${API_BASE}/member/profile`, {
+      const res = await fetch(`${API_BASE}/member/profile`, {
         headers: authHeaders()
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("memberApi.getProfile error:", error);
-
-      return {
-        success: false,
-        message: "Unable to load member profile"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('memberApi.getProfile error:', err);
+      return { success: false, message: 'Unable to load member profile' };
     }
   },
 
   getPass: async () => {
     try {
-      const response = await fetch(`${API_BASE}/member/pass`, {
+      const res = await fetch(`${API_BASE}/member/pass`, {
         headers: authHeaders()
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("memberApi.getPass error:", error);
-
-      return {
-        success: false,
-        message: "Unable to retrieve digital pass"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('memberApi.getPass error:', err);
+      return { success: false, message: 'Unable to retrieve digital pass' };
     }
   },
 
   getAttendanceHistory: async () => {
     try {
-      const response = await fetch(
-        `${API_BASE}/qr/my-attendance-history`,
-        {
-          method: "GET",
-          headers: authHeaders()
-        }
-      );
+      const res = await fetch(`${API_BASE}/qr/my-attendance-history`, {
+        method: 'GET',
+        headers: authHeaders()
+      });
+      return await res.json();
+    } catch (err) {
+      console.error('memberApi.getAttendanceHistory error:', err);
+      return { success: false, message: 'Unable to load attendance history', history: [] };
+    }
+  },
 
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("memberApi.getAttendanceHistory error:", error);
+  // M3 Task 9: Member self-service membership pause
+  pauseMembership: async (days) => {
+    try {
+      const res = await fetch(`${API_BASE}/member/pause`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ days })
+      });
 
+      return await res.json();
+    } catch (err) {
+      console.error('memberApi.pauseMembership error:', err);
       return {
         success: false,
-        message: "Unable to load attendance history",
-        history: []
+        message: 'Unable to submit membership pause request'
       };
     }
   }
 };
 
-// PAYMENT API
 export const paymentApi = {
   createOrder: async (planId, planName) => {
     try {
-      const response = await fetch(`${API_BASE}/payments/create-order`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/payments/create-order`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify({ planId, planName })
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("paymentApi.createOrder error:", error);
-
-      return {
-        success: false,
-        message: "Unable to create payment order"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('paymentApi.createOrder error:', err);
+      return { success: false, message: 'Unable to create payment order' };
     }
   },
 
   verifyPayment: async (paymentData) => {
     try {
-      const response = await fetch(`${API_BASE}/payments/verify`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/payments/verify`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify(paymentData)
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("paymentApi.verifyPayment error:", error);
-
-      return {
-        success: false,
-        message: "Unable to verify payment"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('paymentApi.verifyPayment error:', err);
+      return { success: false, message: 'Unable to verify payment' };
     }
   },
 
   getMyPayments: async () => {
     try {
-      const response = await fetch(`${API_BASE}/payments/my-payments`, {
+      const res = await fetch(`${API_BASE}/payments/my-payments`, {
         headers: authHeaders()
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("paymentApi.getMyPayments error:", error);
-
-      return {
-        success: false,
-        message: "Unable to fetch payment history",
-        payments: []
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('paymentApi.getMyPayments error:', err);
+      return { success: false, message: 'Unable to fetch payment history', payments: [] };
     }
   }
 };
 
-// QR CODE API
 export const qrApi = {
   validate: async (passCode) => {
     try {
-      const response = await fetch(`${API_BASE}/qr/validate`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/qr/validate`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify({ passCode })
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("qrApi.validate error:", error);
-
-      return {
-        success: false,
-        message: "Pass validation failed"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('qrApi.validate error:', err);
+      return { success: false, message: 'Pass validation failed' };
     }
   },
 
   checkIn: async (passCode, checkInId) => {
     try {
-      const response = await fetch(`${API_BASE}/qr/check-in`, {
-        method: "POST",
+      const res = await fetch(`${API_BASE}/qr/check-in`, {
+        method: 'POST',
         headers: authHeaders(),
         body: JSON.stringify({ passCode, checkInId })
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("qrApi.checkIn error:", error);
-
-      return {
-        success: false,
-        message: "Check-in failed"
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('qrApi.checkIn error:', err);
+      return { success: false, message: 'Check-in failed' };
     }
   },
 
   getAttendanceHistory: async () => {
     try {
-      const response = await fetch(`${API_BASE}/qr/attendance-history`, {
-        method: "GET",
+      const res = await fetch(`${API_BASE}/qr/attendance-history`, {
+        method: 'GET',
         headers: authHeaders()
       });
-
-      return await handleResponse(response);
-    } catch (error) {
-      console.error("qrApi.getAttendanceHistory error:", error);
-
-      return {
-        success: false,
-        message: "Unable to load attendance history",
-        history: []
-      };
+      return await res.json();
+    } catch (err) {
+      console.error('qrApi.getAttendanceHistory error:', err);
+      return { success: false, message: 'Unable to load attendance history', history: [] };
     }
   },
 
   getMyAttendanceHistory: async () => {
     try {
-      const response = await fetch(
-        `${API_BASE}/qr/my-attendance-history`,
-        {
-          method: "GET",
-          headers: authHeaders()
-        }
-      );
+      const res = await fetch(`${API_BASE}/qr/my-attendance-history`, {
+        method: 'GET',
+        headers: authHeaders()
+      });
+      return await res.json();
+    } catch (err) {
+      console.error('qrApi.getMyAttendanceHistory error:', err);
+      return { success: false, message: 'Unable to load personal attendance history', history: [] };
+    }
+  }
+};
 
-      return await handleResponse(response);
+export const aiApi = {
+  chat: async (question) => {
+    try {
+      const res = await fetch(`${API_BASE}/ai/chat`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+          question: (question || '').trim()
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return {
+          success: false,
+          message: data.message || 'AI request failed'
+        };
+      }
+
+      return data;
     } catch (error) {
-      console.error("qrApi.getMyAttendanceHistory error:", error);
+      console.error('aiApi.chat error:', error);
+      return {
+        success: false,
+        message: 'Unable to connect to MemberPass AI'
+      };
+    }
+  }
+};
+
+// M3 Task 10: Membership expiry reminder
+export const reminderApi = {
+  runNow: async () => {
+    try {
+      const res = await fetch(`${API_BASE}/reminders/run-now`, {
+        method: 'POST',
+        headers: authHeaders()
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return {
+          success: false,
+          message: data.message || 'Unable to run expiry reminders'
+        };
+      }
+
+      return data;
+    } catch (error) {
+      console.error('reminderApi.runNow error:', error);
 
       return {
         success: false,
-        message: "Unable to load personal attendance history",
-        history: []
+        message: 'Unable to connect to reminder service'
+      };
+    }
+  }
+};
+
+
+// M3 Task 11: AI Absentee Drafts
+export const absenteeApi = {
+  getDrafts: async (days = 14) => {
+    try {
+      const res = await fetch(`${API_BASE}/absentees?days=${days}`, {
+        method: 'GET',
+        headers: authHeaders()
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return {
+          success: false,
+          message: data.message || 'Unable to fetch absentee drafts',
+          drafts: []
+        };
+      }
+
+      return data;
+    } catch (error) {
+      console.error('absenteeApi.getDrafts error:', error);
+      return {
+        success: false,
+        message: 'Unable to connect to absentee service',
+        drafts: []
       };
     }
   }

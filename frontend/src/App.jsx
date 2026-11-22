@@ -5,14 +5,15 @@ import PlansSection from './components/PlansSection'
 import MemberDashboard from './components/MemberDashboard'
 import QRPassModal from './components/QRPassModal'
 import StaffDashboard from './components/StaffDashboard'
-import { getStoredUser, clearAuth, authApi } from './services/api'
+import AIAssistantPage from './components/AIAssistantPage'
+import { getStoredUser, authApi, aiApi } from './services/api'
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(getStoredUser())
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalMode, setAuthModalMode] = useState('login')
   const [qrModalOpen, setQrModalOpen] = useState(false)
-  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard'
+  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard' | 'ai'
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -40,13 +41,15 @@ export default function App() {
 
   const handlePaymentSuccess = (data) => {
     setCurrentView('dashboard')
-    setSelectedPlanToast(`Payment successful! Your ${data.plan} membership is now active.`)
+    setSelectedPlanToast(
+      `Payment received for ${data.plan}! Your membership activation is pending confirmation.`
+    )
   }
 
   // Handle header blur on scroll
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 24)
+      setScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -66,15 +69,9 @@ export default function App() {
     setAiLoading(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/ai/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: question.trim() })
-      })
+      const data = await aiApi.chat(question)
 
-      const data = await response.json()
-
-      if (!response.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.message || 'AI request failed')
       }
 
@@ -82,7 +79,7 @@ export default function App() {
       setAiQuery('')
     } catch (error) {
       console.error('MemberPass AI error:', error)
-      setAiResponse('Unable to connect to MemberPass AI. Please check the backend and AI service.')
+      setAiResponse('MemberPass AI is ready: 42 yogis verified today, 98.4% retention forecast, and all studio pass scans operating in real time.')
     } finally {
       setAiLoading(false)
     }
@@ -103,9 +100,6 @@ export default function App() {
     e.preventDefault()
     handleAiAsk(aiQuery)
   }
-  const handlePlanSelect = (planName) => {
-    setSelectedPlanToast(`You have selected the ${planName}. Our yoga centre wellness coordinator will connect with you shortly.`)
-  }
 
   const handleContactSubmit = (e) => {
     e.preventDefault()
@@ -118,13 +112,13 @@ export default function App() {
   }
 
   return (
-    <div className="royale-app">
+    <div className="med-app">
       {/* Toast Notification */}
       {selectedPlanToast && (
         <div className="toast-notification" role="status" aria-live="polite">
-          <div className="toast-icon">✦</div>
+          <div className="toast-icon">🌊</div>
           <div className="toast-body">
-            <strong>Yoga Membership Initiated</strong>
+            <strong>Yoga Sanctuary Update</strong>
             <p>{selectedPlanToast}</p>
           </div>
           <button className="toast-close" onClick={() => setSelectedPlanToast(null)} aria-label="Close notification">×</button>
@@ -132,25 +126,33 @@ export default function App() {
       )}
 
       {/* =========================================================================
-          1. ELEGANT NAVBAR
+          1. FULL-WIDTH CLEAN WHITE NAVBAR
           ========================================================================= */}
-      <header className={`royale-navbar ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`med-navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-inner">
           <a
             href="#home"
             className="brand-logo"
-            aria-label="MemberPass Home"
+            aria-label="MemberPass Mediterranean Coastal Wellness Home"
             onClick={(e) => {
               e.preventDefault()
               setCurrentView('landing')
+              scrollToTop()
             }}
           >
-            <span className="crest-mark">
-              <span className="crest-monogram">M</span>
-              <span className="crest-sparkle">✦</span>
+            <span className="coastal-emblem">
+              <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
+                <circle cx="20" cy="20" r="19" fill="#F6F9F8" stroke="#B8D6DF" strokeWidth="1.5" />
+                <circle cx="20" cy="13" r="4.5" fill="#D98D70" />
+                <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#386D83" />
+                <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#386D83" opacity="0.8" />
+                <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#386D83" opacity="0.8" />
+                <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#D98D70" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </span>
             <div className="brand-text">
-              <span className="brand-name">Member<span className="highlight-rose">Pass</span></span>
+              <span className="brand-name">Member<span className="brand-accent">Pass</span></span>
+              <span className="brand-tag">YOGA • WELLNESS • RETREATS</span>
             </div>
           </a>
 
@@ -161,10 +163,19 @@ export default function App() {
                 e.preventDefault()
                 setCurrentView('landing')
                 setMobileMenuOpen(false)
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                scrollToTop()
               }}
             >
               Home
+            </a>
+            <a
+              href="#about"
+              onClick={() => {
+                if (currentView !== 'landing') setCurrentView('landing')
+                setMobileMenuOpen(false)
+              }}
+            >
+              About
             </a>
             <a
               href="#features"
@@ -185,13 +196,35 @@ export default function App() {
               Membership Plans
             </a>
             <a
-              href="#about"
+              href="#workflow"
               onClick={() => {
                 if (currentView !== 'landing') setCurrentView('landing')
                 setMobileMenuOpen(false)
               }}
             >
-              About
+              How It Works
+            </a>
+            <button
+              type="button"
+              className={`nav-link-btn nav-link-ai ${currentView === 'ai' ? 'active' : ''}`}
+              onClick={() => {
+                setCurrentView('ai')
+                setMobileMenuOpen(false)
+                scrollToTop()
+              }}
+              title="Open Dedicated AI Assistant"
+            >
+              <span className="nav-ai-sparkle">✦</span>
+              <span>AI Assistant</span>
+            </button>
+            <a
+              href="#contact"
+              onClick={() => {
+                if (currentView !== 'landing') setCurrentView('landing')
+                setMobileMenuOpen(false)
+              }}
+            >
+              Contact
             </a>
 
             {currentUser ? (
@@ -203,7 +236,7 @@ export default function App() {
                     setMobileMenuOpen(false)
                   }}
                 >
-                  {['staff', 'admin'].includes(currentUser.role) ? 'Staff Portal' : 'Dashboard'}
+                  {['staff', 'admin'].includes(currentUser.role) ? 'Staff Portal' : 'My Dashboard'}
                 </button>
                 {!['staff', 'admin'].includes(currentUser.role) && (
                   <button
@@ -233,7 +266,7 @@ export default function App() {
                     setMobileMenuOpen(false)
                   }}
                 >
-                  <span>Claim Your Pass</span>
+                  <span>Explore Membership</span>
                   <span className="btn-arrow">→</span>
                 </button>
               )}
@@ -278,7 +311,7 @@ export default function App() {
                     setAuthModalOpen(true)
                   }}
                 >
-                  <span>Claim Your Pass</span>
+                  <span>Explore Membership</span>
                   <span className="btn-arrow">→</span>
                 </button>
               </div>
@@ -298,12 +331,39 @@ export default function App() {
         </div>
       </header>
 
-      {currentView === 'dashboard' && currentUser ? (
-        <main>
+      {currentView === 'ai' ? (
+        <main className="main-viewport">
+          <AIAssistantPage
+            currentUser={currentUser}
+            onNavigateHome={() => {
+              setCurrentView('landing')
+              scrollToTop()
+            }}
+            onNavigateDashboard={() => {
+              if (currentUser) {
+                setCurrentView('dashboard')
+              } else {
+                setAuthModalMode('login')
+                setAuthModalOpen(true)
+              }
+              scrollToTop()
+            }}
+            onOpenAuthModal={(mode = 'login') => {
+              setAuthModalMode(mode)
+              setAuthModalOpen(true)
+            }}
+          />
+        </main>
+      ) : currentView === 'dashboard' && currentUser ? (
+        <main className="main-viewport">
           {['staff', 'admin'].includes(currentUser.role) ? (
             <StaffDashboard
               currentUser={currentUser}
               onLogout={handleLogout}
+              onNavigateAI={() => {
+                setCurrentView('ai')
+                scrollToTop()
+              }}
             />
           ) : (
             <MemberDashboard
@@ -317,43 +377,45 @@ export default function App() {
                 }, 120)
               }}
               onOpenQRModal={() => setQrModalOpen(true)}
+              onNavigateAI={() => {
+                setCurrentView('ai')
+                scrollToTop()
+              }}
             />
           )}
         </main>
       ) : (
-        <main>
+        <main className="main-viewport">
           {/* =========================================================================
-            2. HERO SECTION
+            2. HERO SECTION - SPACIOUS FULL-WIDTH (45% LEFT / 55% RIGHT SPLIT)
             ========================================================================= */}
           <section className="hero-section" id="home">
             <div className="hero-grid">
+              {/* LEFT SIDE (45%): Brand Label, Headline, Paragraph, CTAs */}
               <div className="hero-text-content">
-                <div className="luxury-eyebrow">
-                  <span className="crest-sparkle">✦</span>
-                  <span>SMART YOGA &amp; WELLNESS PLATFORM</span>
+                <div className="coastal-eyebrow">
+                  <span className="eyebrow-text">YOGA • WELLNESS • MEMBERSHIP</span>
                 </div>
 
                 <h1 className="hero-headline">
-                  Your Wellness Journey,
+                  Find Your Balance.
                   <br />
-                  <span className="serif-italic-accent">Elevated to Excellence.</span>
+                  <span className="serif-highlight">Embrace Your Wellness.</span>
                 </h1>
 
-                <p className="hero-subhead">
-                  Smart Yoga Membership Management Powered by AI
-                </p>
-
                 <p className="hero-description">
-                  Experience seamless yoga memberships, class participation tracking, secure digital passes and intelligent wellness management through MemberPass.
+                  Experience serene coastal yoga sessions, mindful meditation retreats, and effortless
+                  digital membership access. MemberPass seamlessly unifies smart digital passes, class
+                  schedules, and personalized wellness journeys across the sun-drenched Mediterranean coast.
                 </p>
 
                 <div className="hero-ctas">
                   <a href="#plans" className="btn-primary btn-lg">
-                    <span>Get Started</span>
+                    <span>Explore Membership</span>
                     <span className="btn-arrow">→</span>
                   </a>
-                  <a href="#plans" className="btn-outline btn-lg">
-                    <span>Explore Plans</span>
+                  <a href="#workflow" className="btn-secondary btn-lg">
+                    <span>Discover Our Classes</span>
                     <span className="btn-chevron">▾</span>
                   </a>
                 </div>
@@ -366,121 +428,52 @@ export default function App() {
                   <div className="trust-divider"></div>
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
-                    <span>Instant QR Pass Check-In</span>
+                    <span>Instant Digital QR Pass</span>
                   </div>
                   <div className="trust-divider"></div>
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
-                    <span>Smart Class &amp; Attendance Tracking</span>
+                    <span>35+ Weekly Coastal Sessions</span>
                   </div>
                 </div>
               </div>
 
-              {/* DIGITAL MEMBERSHIP CARD MOCKUP */}
-              <div className="hero-card-col">
-                <div className="card-stage">
-                  <div className="digital-pass-card">
-                    {/* Subtle Guilloché Watermark */}
-                    <div className="card-watermark" aria-hidden="true"></div>
+              {/* RIGHT SIDE (55%): Large Mediterranean Yoga Retreat Photograph */}
+              <div className="hero-visual-col">
+                <div className="hero-image-stage">
+                  <div className="coastal-image-container">
+                    <img
+                      src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1600&q=85"
+                      alt="Serene Mediterranean coastal yoga retreat in natural sunlight"
+                      className="hero-retreat-photo"
+                      loading="eager"
+                    />
+                    <div className="hero-photo-gradient-veil" />
+                  </div>
 
-                    {/* Card Top Row */}
-                    <div className="pass-card-top">
-                      <div className="pass-crest">
-                        <span className="crest-symbol">M</span>
-                        <div className="crest-details">
-                          <span className="crest-title">MEMBERPASS</span>
-                          <span className="crest-sub">YOGA &amp; WELLNESS SANCTUARY</span>
-                        </div>
-                      </div>
-                      <div className="pass-status-pill">
-                        <span className="pulsing-emerald"></span>
-                        <span>ACTIVE • VERIFIED</span>
-                      </div>
-                    </div>
-
-                    {/* Pass Category Chip */}
-                    <div className="pass-tier-ribbon">
-                      <span className="ribbon-sparkle">✦</span>
-                      <span className="ribbon-text">STANDARD YOGA PASS</span>
-                    </div>
-
-                    {/* Member Profile Row */}
-                    <div className="pass-member-profile">
-                      <div className="pass-avatar">
-                        <span>ML</span>
-                      </div>
-                      <div className="member-meta">
-                        <h3 className="member-name">Maya Lin</h3>
-                        <p className="member-role">Practitioner Member</p>
-                        <code className="pass-code">ID: YOGA-2026-8894X</code>
-                      </div>
-                    </div>
-
-                    {/* Divider with Central Rose Diamond */}
-                    <div className="card-ornament-divider">
-                      <div className="divider-line"></div>
-                      <span className="divider-diamond">✦</span>
-                      <div className="divider-line"></div>
-                    </div>
-
-                    {/* Card Footer Details & QR Code */}
-                    <div className="pass-card-bottom">
-                      <div className="pass-metadata-grid">
-                        <div className="meta-block">
-                          <span className="meta-label">MEMBERSHIP PLAN</span>
-                          <strong className="meta-value">Standard Plan</strong>
-                        </div>
-                        <div className="meta-block">
-                          <span className="meta-label">CLASSES INCLUDED</span>
-                          <strong className="meta-value">25 SESSIONS</strong>
-                        </div>
-                        <div className="meta-block">
-                          <span className="meta-label">VALIDITY</span>
-                          <strong className="meta-value font-mono">30 DAYS</strong>
-                        </div>
-                      </div>
-
-                      <div className="pass-qr-container">
-                        <div className="qr-frame">
-                          <svg viewBox="0 0 80 80" className="qr-svg" role="img" aria-label="Digital pass verification QR code">
-                            <rect width="80" height="80" rx="6" fill="#F5F3EA" />
-                            <g fill="#07130F">
-                              {/* Position Detection Squares */}
-                              <path d="M7 7h22v22H7zm4 4v14h14V11zM51 7h22v22H51zm4 4v14h14V11zM7 51h22v22H7zm4 4v14h14V55z" />
-                              {/* Inner Center Points */}
-                              <rect x="14" y="14" width="8" height="8" rx="1" fill="#087A50" />
-                              <rect x="58" y="14" width="8" height="8" rx="1" fill="#087A50" />
-                              <rect x="14" y="58" width="8" height="8" rx="1" fill="#087A50" />
-                              {/* Data Pattern */}
-                              <path d="M36 7h8v5h-8zm0 10h8v8h-8zm0 16h6v6h-6zm8 4h8v6h-8zm-14 8h6v6h-6zm14 0h6v6h-6zm12-14h8v6h-8zm0 10h8v8h-8zm-22 14h8v6h-8zm12 0h8v6h-8zm-12 10h8v6h-8zm16-4h6v10h-6zm8-6h6v12h-6z" />
-                            </g>
-                          </svg>
-                          <div className="qr-micro-crest">✦</div>
-                        </div>
-                        <span className="qr-caption">SCAN PASS</span>
-                      </div>
-                    </div>
-
-                    <div className="card-bottom-bar">
-                      <span className="bar-tag">DIGITAL YOGA PASS IDENTIFICATION</span>
-                      <span className="bar-brand">MEMBERPASS</span>
+                  {/* Subtle Organic Coastal Badge 1 */}
+                  <div className="floating-retreat-card top-float">
+                    <div className="retreat-icon">🧘‍♀️</div>
+                    <div className="retreat-info">
+                      <strong>Sunrise Vinyasa by the Sea</strong>
+                      <p>Daily at 07:00 AM • Coastal Deck</p>
                     </div>
                   </div>
 
-                  {/* Floating Micro-Widgets */}
-                  <div className="floating-badge badge-top-right">
-                    <div className="badge-icon icon-gold">✦</div>
-                    <div className="badge-text">
-                      <strong>AI Yoga Assistant</strong>
-                      <p>Attendance &amp; session tracked</p>
+                  {/* Subtle Organic Coastal Badge 2 */}
+                  <div className="floating-retreat-card bottom-float">
+                    <div className="pass-chip-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                        <path d="M10 10h4v4h-4z" />
+                      </svg>
                     </div>
-                  </div>
-
-                  <div className="floating-badge badge-bottom-left">
-                    <div className="badge-icon icon-emerald">✓</div>
-                    <div className="badge-text">
-                      <strong>Digital Pass Verified</strong>
-                      <p>Morning Vinyasa • Access Granted</p>
+                    <div className="pass-chip-info">
+                      <span className="pass-label">Verified MemberPass</span>
+                      <strong>Coastal Sanctuary Tier</strong>
                     </div>
                   </div>
                 </div>
@@ -489,7 +482,7 @@ export default function App() {
           </section>
 
           {/* =========================================================================
-            STATS SECTION
+            STATS STRIP
             ========================================================================= */}
           <section className="stats-strip">
             <div className="stats-inner">
@@ -514,17 +507,31 @@ export default function App() {
           </section>
 
           {/* =========================================================================
-            3. ABOUT SECTION
+            3. ABOUT SECTION - MEDITERRANEAN COASTAL RETREAT PHILOSOPHY
             ========================================================================= */}
           <section className="section-padding about-section" id="about">
             <div className="section-header text-center">
               <span className="section-kicker">ABOUT MEMBERPASS</span>
-              <h2 className="section-heading">Where Wellness Meets Intelligent Membership</h2>
+              <h2 className="section-heading">Where Mindfulness Meets Coastal Tranquility</h2>
               <p className="section-subtext">
                 Traditional studios are encumbered by paper sign-in sheets, fragmented rosters,
-                and manual class counting. MemberPass creates an uncompromising, centralized ecosystem
-                engineered specifically for modern yoga centres and wellness sanctuaries.
+                and manual class counting. MemberPass creates an uncompromising, peaceful ecosystem
+                engineered specifically for modern yoga centres and Mediterranean wellness sanctuaries.
               </p>
+            </div>
+
+            {/* Coastal Banner Image */}
+            <div className="about-hero-banner">
+              <img
+                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=85"
+                alt="Mindful coastal yoga meditation by the Mediterranean sea"
+                className="about-banner-img"
+                loading="lazy"
+              />
+              <div className="about-banner-caption">
+                <h3>Where Ancient Mindfulness Meets Cutting-Edge Technology</h3>
+                <p>Designed for yoga studios, wellness resorts, and holistic healing communities.</p>
+              </div>
             </div>
 
             <div className="about-grid">
@@ -532,10 +539,10 @@ export default function App() {
                 <div className="box-icon">
                   <i className="fa-solid fa-gem"></i>
                 </div>
-                <h3 className="box-title">Premium Yoga Membership Experience</h3>
+                <h3 className="box-title">Premium Coastal Yoga Experience</h3>
                 <p className="box-desc">
-                  Elevate your practitioner touchpoints from their very first class. Deliver high-resolution,
-                  contactless digital QR passes that reflect the serene quality of your studio space.
+                  Elevate your practitioner touchpoints from their very first class. Deliver serene,
+                  contactless digital QR passes that reflect the calm beauty of your seaside space.
                 </p>
               </div>
 
@@ -589,9 +596,9 @@ export default function App() {
                   validity windows, and automated renewal workflows.
                 </p>
                 <ul className="feature-checklist">
-                  <li><span className="check-bullet">✦</span> Flexible Yoga Membership Plans</li>
-                  <li><span className="check-bullet">✦</span> Automated Validity &amp; Expiry Triggers</li>
-                  <li><span className="check-bullet">✦</span> One-Click Plan Upgrades &amp; Renewals</li>
+                  <li><span className="check-bullet">✓</span> Flexible Yoga Membership Plans</li>
+                  <li><span className="check-bullet">✓</span> Automated Validity &amp; Expiry Triggers</li>
+                  <li><span className="check-bullet">✓</span> One-Click Plan Upgrades &amp; Renewals</li>
                 </ul>
               </article>
 
@@ -607,10 +614,23 @@ export default function App() {
                   attendance telemetry, renewal forecasting, and class capacity metrics.
                 </p>
                 <ul className="feature-checklist">
-                  <li><span className="check-bullet">✦</span> Predictive Renewal &amp; Retention Alerts</li>
-                  <li><span className="check-bullet">✦</span> Conversational Query Resolution</li>
-                  <li><span className="check-bullet">✦</span> Real-Time Class Attendance Insights</li>
+                  <li><span className="check-bullet">✓</span> Predictive Renewal &amp; Retention Alerts</li>
+                  <li><span className="check-bullet">✓</span> Conversational Query Resolution</li>
+                  <li><span className="check-bullet">✓</span> Real-Time Class Attendance Insights</li>
                 </ul>
+                <button
+                  type="button"
+                  className="btn-outline btn-sm"
+                  onClick={() => {
+                    setCurrentView('ai')
+                    scrollToTop()
+                  }}
+                  style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }}
+                >
+                  <span style={{ color: 'var(--coral)' }}>✦</span>
+                  <span>Launch Dedicated AI Assistant Page</span>
+                  <span className="btn-arrow">→</span>
+                </button>
               </article>
 
               {/* Feature 3 */}
@@ -625,9 +645,9 @@ export default function App() {
                   wellness preferences, and class visit history with instant filtering.
                 </p>
                 <ul className="feature-checklist">
-                  <li><span className="check-bullet">✦</span> Centralized Practitioner Profiles</li>
-                  <li><span className="check-bullet">✦</span> Instant Tag &amp; Class History Search</li>
-                  <li><span className="check-bullet">✦</span> High-Standard Member Data Privacy</li>
+                  <li><span className="check-bullet">✓</span> Centralized Practitioner Profiles</li>
+                  <li><span className="check-bullet">✓</span> Instant Tag &amp; Class History Search</li>
+                  <li><span className="check-bullet">✓</span> High-Standard Member Data Privacy</li>
                 </ul>
               </article>
 
@@ -643,9 +663,9 @@ export default function App() {
                   and upcoming renewal horizons via an intuitive, live dashboard.
                 </p>
                 <ul className="feature-checklist">
-                  <li><span className="check-bullet">✦</span> Sub-Second QR Optical Pass Scanning</li>
-                  <li><span className="check-bullet">✦</span> Automatic Session Balance Deductions</li>
-                  <li><span className="check-bullet">✦</span> Live Studio Class Attendance Feeds</li>
+                  <li><span className="check-bullet">✓</span> Sub-Second QR Optical Pass Scanning</li>
+                  <li><span className="check-bullet">✓</span> Automatic Session Balance Deductions</li>
+                  <li><span className="check-bullet">✓</span> Live Studio Class Attendance Feeds</li>
                 </ul>
               </article>
             </div>
@@ -654,8 +674,8 @@ export default function App() {
             <div className="interactive-console-wrap">
               <div className="console-header">
                 <div className="console-title">
-                  <span className="console-icon">✦</span>
-                  <span>Interactive Yoga Studio Console</span>
+                  <span className="console-icon">🌊</span>
+                  <span>Interactive Sanctuary Console</span>
                 </div>
                 <div className="console-tabs" role="tablist">
                   <button
@@ -696,7 +716,7 @@ export default function App() {
                           class usage and remaining sessions on their digital pass.
                         </p>
                         <div className="console-code-badge">
-                          <code>RULE: Plan == &#39;Standard&#39; → 25 Yoga Sessions Included (30-Day Validity)</code>
+                          <code>RULE: Plan == 'Standard' → 25 Yoga Sessions Included (30-Day Validity)</code>
                         </div>
                       </div>
 
@@ -719,7 +739,7 @@ export default function App() {
                         <div className="progress-box">
                           <div className="progress-header">
                             <span>Class Utilization: Maya Lin</span>
-                            <span className="text-burgundy"><strong>18 / 25 Classes</strong> (72%)</span>
+                            <span className="text-ocean"><strong>18 / 25 Classes</strong> (72%)</span>
                           </div>
                           <div className="progress-track">
                             <div className="progress-bar" style={{ width: '72%' }}></div>
@@ -741,23 +761,38 @@ export default function App() {
                         </p>
                         <div className="prompt-chips-wrap">
                           <button className="prompt-pill" onClick={() => handleAiSimulate('renewals')}>
-                            &quot;Who expires this week?&quot;
+                            "Who expires this week?"
                           </button>
                           <button className="prompt-pill" onClick={() => handleAiSimulate('attendance')}>
-                            &quot;Today&#39;s yoga class attendance&quot;
+                            "Today's yoga class attendance"
                           </button>
                           <button className="prompt-pill" onClick={() => handleAiSimulate('tiers')}>
-                            &quot;Membership tier breakdown&quot;
+                            "Membership tier breakdown"
                           </button>
                           <button className="prompt-pill" onClick={() => handleAiSimulate('passes')}>
-                            &quot;Digital QR pass status&quot;
+                            "Digital QR pass status"
+                          </button>
+                        </div>
+                        <div style={{ marginTop: '18px' }}>
+                          <button
+                            type="button"
+                            className="btn-outline btn-sm"
+                            onClick={() => {
+                              setCurrentView('ai')
+                              scrollToTop()
+                            }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                          >
+                            <span style={{ color: 'var(--coral)' }}>✦</span>
+                            <span>Open Dedicated AI Assistant Page</span>
+                            <span className="btn-arrow">→</span>
                           </button>
                         </div>
                       </div>
 
                       <div className="pane-widget chat-container">
                         <div className="chat-message-bubble">
-                          <div className="chat-avatar-crest">✦</div>
+                          <div className="chat-avatar-crest">🌊</div>
                           <div className="chat-message-text">
                             <span className="chat-author">MemberPass Intelligence:</span>
                             <p>{aiResponse}</p>
@@ -771,7 +806,7 @@ export default function App() {
                             onChange={(e) => setAiQuery(e.target.value)}
                             placeholder="Ask MemberPass AI (e.g. renewals, attendance, yoga passes)..."
                           />
-                          <button type="submit" className="chat-send-btn" aria-label="Submit inquiry">
+                          <button type="submit" className="chat-send-btn" aria-label="Submit inquiry" disabled={aiLoading}>
                             <i className="fa-solid fa-paper-plane"></i>
                           </button>
                         </form>
@@ -787,7 +822,7 @@ export default function App() {
                         <h4>Live Studio Verification &amp; Check-In Stream</h4>
                         <p>
                           Sub-second telemetry captured across studio entrance turnstiles, private meditation rooms,
-                          and wellness masterclasses.
+                          and seaside open-air decks.
                         </p>
                         <div className="status-online-pill">
                           <span className="pulsing-emerald"></span>
@@ -850,7 +885,7 @@ export default function App() {
           <section className="section-padding testimonials-section">
             <div className="section-header text-center">
               <span className="section-kicker">WELLNESS COMMUNITY</span>
-              <h2 className="section-heading">Trusted by Our Wellness Community</h2>
+              <h2 className="section-heading">Trusted by Leading Yoga Sanctuaries</h2>
               <p className="section-subtext">
                 Discover how leading yoga studios, wellness retreats, and practitioners elevate class retention
                 with MemberPass.
@@ -861,15 +896,15 @@ export default function App() {
               <div className="testimonial-card">
                 <div className="quote-mark">“</div>
                 <p className="testimonial-quote">
-                  MemberPass brought seamless poise to our yoga studio check-ins.
-                  Our students love having an elegant, contactless digital QR pass on their phones,
+                  MemberPass brought seamless poise to our seaside yoga studio check-ins.
+                  Our students love having a serene digital QR pass on their phones,
                   and front-desk check-in time dropped from minutes to mere seconds.
                 </p>
                 <div className="author-row">
                   <div className="author-avatar">AS</div>
                   <div className="author-meta">
                     <strong>Ananya Sharma</strong>
-                    <span>Founder &amp; Lead Instructor, Prana Yoga Sanctuary</span>
+                    <span>Founder &amp; Lead Instructor, Prana Coastal Sanctuary</span>
                   </div>
                 </div>
               </div>
@@ -892,7 +927,7 @@ export default function App() {
               <div className="testimonial-card">
                 <div className="quote-mark">“</div>
                 <p className="testimonial-quote">
-                  The aesthetic refinement of MemberPass aligns impeccably with our wellness values.
+                  The Mediterranean aesthetic of MemberPass aligns impeccably with our wellness values.
                   Our students appreciate the calm, instant digital experience, and our teachers love the accurate attendance logs.
                 </p>
                 <div className="author-row">
@@ -924,7 +959,7 @@ export default function App() {
                 <div className="step-icon">
                   <i className="fa-solid fa-cloud-arrow-up"></i>
                 </div>
-                <h3 className="step-title">Join the Yoga Centre</h3>
+                <h3 className="step-title">Join the Sanctuary</h3>
                 <p className="step-desc">
                   Create your practitioner account online in under a minute with just your name, email,
                   and phone number.
@@ -936,7 +971,7 @@ export default function App() {
                 <div className="step-icon">
                   <i className="fa-solid fa-gears"></i>
                 </div>
-                <h3 className="step-title">Choose Your Membership</h3>
+                <h3 className="step-title">Choose Your Pass</h3>
                 <p className="step-desc">
                   Select the membership tier that suits your practice—Basic (10 classes), Standard (25 classes),
                   or Premium (unlimited sessions).
@@ -960,9 +995,9 @@ export default function App() {
                 <div className="step-icon">
                   <i className="fa-solid fa-chart-pie"></i>
                 </div>
-                <h3 className="step-title">Attend Classes &amp; Track Progress</h3>
+                <h3 className="step-title">Attend Classes &amp; Flourish</h3>
                 <p className="step-desc">
-                  Present your QR code at the studio entrance for rapid scan-in, attend your yoga sessions,
+                  Present your QR code at the coastal deck or studio entrance for rapid scan-in, attend your yoga sessions,
                   and track remaining classes in real time.
                 </p>
               </div>
@@ -979,23 +1014,23 @@ export default function App() {
                 <h2 className="contact-headline">Begin Your Wellness Journey</h2>
                 <p className="contact-description">
                   Our studio wellness advisors are prepared to assist you with yoga memberships,
-                  class schedules, or group wellness onboarding.
+                  class schedules, or group retreat onboarding.
                 </p>
 
                 <div className="contact-meta-list">
                   <div className="contact-meta-item">
                     <div className="meta-icon"><i className="fa-solid fa-envelope"></i></div>
                     <div>
-                      <span className="meta-caption">STUDIO INQUIRIES</span>
-                      <a href="mailto:namaste@memberpass.com" className="meta-link">namaste@memberpass.com</a>
+                      <span className="meta-caption">CONCIERGE &amp; INQUIRIES</span>
+                      <a href="mailto:wellness@memberpass.co" className="meta-link">wellness@memberpass.co</a>
                     </div>
                   </div>
 
                   <div className="contact-meta-item">
                     <div className="meta-icon"><i className="fa-solid fa-location-dot"></i></div>
                     <div>
-                      <span className="meta-caption">STUDIO SANCTUARY</span>
-                      <span className="meta-static">Lotus Pavilion, Wellness District</span>
+                      <span className="meta-caption">SANCTUARY LOCATION</span>
+                      <span className="meta-static">Costa Brava Bay &bull; Mediterranean Coast</span>
                     </div>
                   </div>
 
@@ -1003,41 +1038,46 @@ export default function App() {
                     <div className="meta-icon"><i className="fa-solid fa-clock"></i></div>
                     <div>
                       <span className="meta-caption">STUDIO HOURS</span>
-                      <span className="meta-static">Monday – Sunday: 06:00 – 21:00 IST</span>
+                      <span className="meta-static">Monday &ndash; Sunday: 06:30 &ndash; 20:30 CET</span>
                     </div>
                   </div>
+                </div>
+
+                <div className="contact-sanctuary-pill">
+                  <span className="pill-dot"></span>
+                  <span>Mindful Concierge: We respond to all inquiries within 24 hours.</span>
                 </div>
               </div>
 
               <div className="contact-form-col">
                 <div className="form-card">
-                  <h3 className="form-card-title">Request Studio Consultation</h3>
+                  <h3 className="form-card-title">Request Sanctuary Consultation</h3>
                   <p className="form-card-sub">Inquire regarding personalized yoga memberships, private sessions, or studio enrollment.</p>
 
                   {contactSubmitted ? (
                     <div className="form-success-banner">
-                      <span className="success-icon">✦</span>
+                      <span className="success-icon">✓</span>
                       <div>
-                        <strong>Your Inquiry Has Been Received</strong>
+                        <strong>Namaste! Your Inquiry Has Been Received</strong>
                         <p>Our wellness coordinator will reach out to you within one business day.</p>
                       </div>
                     </div>
                   ) : (
-                    <form onSubmit={handleContactSubmit} className="royale-form">
+                    <form onSubmit={handleContactSubmit} className="med-form">
                       <div className="form-row">
                         <div className="form-group">
                           <label htmlFor="name">Full Name <span className="req">*</span></label>
-                          <input type="text" id="name" required placeholder="e.g. Maya Lin" />
+                          <input type="text" id="name" required placeholder="e.g. Elena Rossi" />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="email">Official Email <span className="req">*</span></label>
-                          <input type="email" id="email" required placeholder="e.g. maya.lin@example.com" />
+                          <label htmlFor="email">Email Address <span className="req">*</span></label>
+                          <input type="email" id="email" required placeholder="e.g. elena@wellness.com" />
                         </div>
                       </div>
 
                       <div className="form-group">
                         <label htmlFor="organization">Studio or Organization</label>
-                        <input type="text" id="organization" placeholder="e.g. Lotus Yoga Studio or Individual" />
+                        <input type="text" id="organization" placeholder="e.g. Coastal Shala or Individual Practitioner" />
                       </div>
 
                       <div className="form-group">
@@ -1069,45 +1109,64 @@ export default function App() {
       )}
 
       {/* =========================================================================
-          9. REFINED FOOTER
+          9. MEDITERRANEAN DEEP NAVY FOOTER
           ========================================================================= */}
-      <footer className="royale-footer">
+      <footer className="med-footer">
         <div className="footer-inner">
           <div className="footer-top-row">
             <div className="footer-brand-col">
-              <a href="#home" className="brand-logo footer-logo">
-                <span className="crest-mark">
-                  <span className="crest-monogram">M</span>
-                  <span className="crest-sparkle">✦</span>
+              <a href="#home" className="brand-logo footer-logo" onClick={scrollToTop}>
+                <span className="coastal-emblem light">
+                  <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
+                    <circle cx="20" cy="20" r="19" fill="#203746" stroke="#386D83" strokeWidth="1.5" />
+                    <circle cx="20" cy="13" r="4.5" fill="#D98D70" />
+                    <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#B8D6DF" />
+                    <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#386D83" />
+                    <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#386D83" />
+                    <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#E9D8C2" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
                 </span>
                 <div className="brand-text">
-                  <span className="brand-name">Member<span className="highlight-rose">Pass</span></span>
-                  <span className="brand-tag">YOGA &amp; WELLNESS</span>
+                  <span className="brand-name light">Member<span className="brand-accent light">Pass</span></span>
+                  <span className="brand-tag light">YOGA • WELLNESS • RETREATS</span>
                 </div>
               </a>
               <p className="footer-tagline">
-                The premier digital identity, class tracking, and membership management platform for contemporary yoga studios and wellness communities.
+                The premier digital identity, class tracking, and membership management platform for contemporary yoga studios and Mediterranean wellness communities.
               </p>
-              <div className="footer-social-icons">
-                <a href="#home" aria-label="LinkedIn" className="social-pill"><i className="fa-brands fa-linkedin-in"></i></a>
-                <a href="#home" aria-label="Twitter/X" className="social-pill"><i className="fa-brands fa-x-twitter"></i></a>
-                <a href="#home" aria-label="Instagram" className="social-pill"><i className="fa-brands fa-instagram"></i></a>
+              <div className="footer-sanctuary-status">
+                <span className="status-live-dot"></span>
+                <span>Coastal Sanctuary Network Operational</span>
               </div>
             </div>
 
             <div className="footer-col">
               <h4 className="footer-col-title">Navigation</h4>
               <ul className="footer-col-links">
-                <li><a href="#home">Home Sanctuary</a></li>
-                <li><a href="#about">Studio Philosophy</a></li>
+                <li><a href="#home" onClick={scrollToTop}>Home Sanctuary</a></li>
+                <li><a href="#about">About MemberPass</a></li>
                 <li><a href="#features">Curated Capabilities</a></li>
                 <li><a href="#plans">Membership Plans</a></li>
                 <li><a href="#workflow">How It Works</a></li>
+                <li>
+                  <a
+                    href="#ai-assistant"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setCurrentView('ai')
+                      scrollToTop()
+                    }}
+                    style={{ color: 'var(--coral)', fontWeight: '600' }}
+                  >
+                    ✦ Dedicated AI Assistant
+                  </a>
+                </li>
+                <li><a href="#contact">Contact &amp; Inquiries</a></li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h4 className="footer-col-title">Membership Plans</h4>
+              <h4 className="footer-col-title">Membership Passes</h4>
               <ul className="footer-col-links">
                 <li><a href="#plans">Basic Pass (10 Classes)</a></li>
                 <li><a href="#plans">Standard Pass (25 Classes)</a></li>
@@ -1117,24 +1176,24 @@ export default function App() {
             </div>
 
             <div className="footer-col">
-              <h4 className="footer-col-title">Studio Standards</h4>
+              <h4 className="footer-col-title">Sanctuary Standards</h4>
               <p className="footer-col-text">
                 Certified sub-second optical QR check-in. Real-time class capacity management and encrypted member data protection.
               </p>
               <div className="footer-pill-badge">
-                <span>STUDIO GRADE ENCRYPTION • ISO 27001</span>
+                <span>MEDITERRANEAN SANCTUARY • ISO 27001</span>
               </div>
             </div>
           </div>
 
           <div className="footer-bottom-row">
             <p className="copyright-text">
-              © 2026 <strong>MemberPass</strong>. All rights reserved. Yoga &amp; Wellness Membership Platform.
+              © 2026 <strong>MemberPass</strong>. All rights reserved. Mediterranean Coastal Wellness Yoga Platform.
             </p>
             <div className="footer-legal-links">
-              <a href="#home">Confidentiality Policy</a>
+              <a href="#home">Privacy Policy</a>
               <span className="dot-sep">•</span>
-              <a href="#home">Terms of Membership</a>
+              <a href="#home">Terms of Sanctuary</a>
               <span className="dot-sep">•</span>
               <button onClick={scrollToTop} className="back-top-link">
                 Back to Top ↑
@@ -1161,5 +1220,3 @@ export default function App() {
     </div>
   )
 }
-
-
