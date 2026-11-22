@@ -23,13 +23,12 @@ const {
 const app = express();
 
 // ======================================================
-// CORS - Ranjith MemberPass Project
+// CORS - MemberPass Production + Local Development
 // ======================================================
 
 const allowedOrigins = [
-  // Production frontends
-  "https://member-pass.vercel.app",
-  "https://member-pass-psi.vercel.app",
+  // Production frontend
+  "https://member-pass-one.vercel.app",
 
   // Local development
   "http://localhost:5173",
