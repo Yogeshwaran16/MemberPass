@@ -319,9 +319,9 @@ export default function AIAssistantPage({
                 <div className="welcome-lotus-wrap">
                   <i className="fa-solid fa-spa" />
                 </div>
-                <h2 className="welcome-title">How can I assist your wellness practice today?</h2>
+                <h2 className="welcome-title">Welcome to your wellness companion.</h2>
                 <p className="welcome-subtitle">
-                  Ask me about your live membership status, attended classes, digital QR pass, or studio policies. Select a topic below to get started instantly:
+                  Ask me about membership, wellness experiences or how to make the most of your MemberPass journey.
                 </p>
 
                 {/* 5 Suggested Question Cards in 2-Column Responsive Grid */}

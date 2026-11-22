@@ -1,91 +1,125 @@
 /* ==========================================================================
-   MemberPass — Mediterranean Coastal Wellness Yoga Platform
-   Strict Theme: Mediterranean Coastal Wellness
+   MemberPass — Premium Wellness & Yoga Membership Platform
+   Design System: Luxury Wellness & Yoga Sanctuary
    Palette:
-     Ocean Blue:       #386D83
-     Sky Blue:         #B8D6DF
-     Pure White:       #FFFFFF
-     Warm Sand:        #E9D8C2
-     Coral:            #D98D70
-     Deep Navy:        #203746
-     Light Background: #F6F9F8
+     Primary Background:   #F7F5EF (Warm Ivory / Linen)
+     Secondary Background: #EDE9DF (Soft Sand / Light Beige)
+     Forest Green:         #234B3C (Primary Brand Accent)
+     Deep Green:           #17382D (Dark Forest / Digital Pass)
+     Sage Green:           #A9B8A3 (Soft Botanical Accent)
+     Champagne Gold:       #C3A574 (Subtle Metallic Accent)
+     Primary Text:         #242924 (Deep Botanical Charcoal)
+     Muted Text:           #77786F (Warm Slate / Sage Grey)
+     Card Surface:         #FFFFFF (Pure White Card Layer)
+     Elevated Surface:     #FAF8F3 (Soft Warm Cream)
+   Typography:
+     Headings: Playfair Display / DM Serif Display
+     Body:     Plus Jakarta Sans / Inter
    ========================================================================== */
 
 :root {
-  /* Mediterranean Exact Palette */
-  --ocean-blue: #386D83;
-  --ocean-blue-hover: #2b5567;
-  --sky-blue: #B8D6DF;
-  --sky-blue-light: #e6f1f4;
-  --white: #FFFFFF;
-  --warm-sand: #E9D8C2;
-  --warm-sand-light: #f7f2eb;
-  --coral: #D98D70;
-  --coral-hover: #c47b5f;
-  --deep-navy: #203746;
-  --deep-navy-dark: #162631;
-  --light-bg: #F6F9F8;
+  /* ── Core Wellness Palette ── */
+  --bg-primary:          #F7F5EF;
+  --bg-secondary:        #EDE9DF;
+  --bg-card:             #FFFFFF;
+  --bg-card-warm:        #FAF8F3;
+  --bg-surface-elevated: #F2EFE8;
 
-  /* Aliases for semantic usage */
-  --bg-page: #F6F9F8;
-  --bg-surface: #FFFFFF;
-  --bg-sand: #FBF8F3;
-  --color-primary: #386D83;
-  --color-primary-hover: #2b5567;
-  --color-secondary: #B8D6DF;
-  --color-coral: #D98D70;
-  --color-sand: #E9D8C2;
-  --text-main: #203746;
-  --text-secondary: #4A6372;
-  --text-muted: #738A97;
-  --text-white: #FFFFFF;
+  /* ── Greens System ── */
+  --forest-green:        #234B3C;
+  --forest-green-hover:  #1d3e32;
+  --forest-green-light:  rgba(35, 75, 60, 0.08);
+  --deep-green:          #17382D;
+  --deep-green-dark:     #0f261e;
+  --sage:                #A9B8A3;
+  --sage-light:          rgba(169, 184, 163, 0.22);
+  --sage-border:         rgba(169, 184, 163, 0.35);
 
-  /* Backward compatibility aliases mapping old tokens strictly to Mediterranean colors */
-  --burgundy: #386D83;
-  --burgundy-light: #4A829B;
-  --burgundy-hover: #2b5567;
-  --wine: #203746;
-  --wine-dark: #162631;
-  --rose: #D98D70;
-  --rose-light: #e69d82;
-  --rose-soft: rgba(217, 141, 112, 0.12);
-  --blush: #B8D6DF;
-  --blush-subtle: #F6F9F8;
-  --blush-border: rgba(56, 109, 131, 0.18);
-  --ivory: #F6F9F8;
-  --gold-accent: #D98D70;
-  --gold-light: #E9D8C2;
+  /* ── Champagne Gold System ── */
+  --champagne-gold:      #C3A574;
+  --gold-light:          #D8BE93;
+  --gold-pale:           #F2E8D7;
+  --gold-dark:           #A58655;
+  --gold-muted:          rgba(195, 165, 116, 0.16);
+  --gold-border:         rgba(195, 165, 116, 0.32);
 
-  --grad-burgundy-wine: linear-gradient(135deg, #386D83 0%, #203746 100%);
-  --grad-wine-card: linear-gradient(145deg, #203746 0%, #386D83 100%);
-  --grad-rose-button: linear-gradient(135deg, #386D83 0%, #2b5567 100%);
-  --grad-blush-soft: linear-gradient(180deg, #FFFFFF 0%, #F6F9F8 100%);
-  --grad-gold-metallic: linear-gradient(135deg, #E9D8C2 0%, #D98D70 100%);
+  /* ── Text System ── */
+  --text-primary:        #242924;
+  --text-secondary:      #555C55;
+  --text-muted:          #77786F;
+  --text-faint:          #9E9F97;
+  --text-white:          #FFFFFF;
+  --text-on-dark:        #F7F5EF;
 
-  /* Typography */
-  --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-crest: 'Cinzel', serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* ── Gradients ── */
+  --grad-forest:         linear-gradient(135deg, #234B3C 0%, #17382D 100%);
+  --grad-forest-card:    linear-gradient(145deg, #17382D 0%, #0F261E 100%);
+  --grad-gold:           linear-gradient(135deg, #D8BE93 0%, #C3A574 50%, #A58655 100%);
+  --grad-hero-soft:      linear-gradient(180deg, #F7F5EF 0%, #EDE9DF 100%);
+  --grad-sage-soft:      linear-gradient(135deg, rgba(169, 184, 163, 0.15) 0%, rgba(237, 233, 223, 0.4) 100%);
 
-  /* Layout, Shadows & Radius */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-full: 9999px;
+  /* ── Borders ── */
+  --border-subtle:       1px solid rgba(35, 75, 60, 0.1);
+  --border-card:         1px solid rgba(35, 75, 60, 0.12);
+  --border-gold:         1px solid rgba(195, 165, 116, 0.35);
+  --border-sage:         1px solid rgba(169, 184, 163, 0.35);
 
-  --shadow-sm: 0 2px 10px rgba(32, 55, 70, 0.05);
-  --shadow-md: 0 8px 24px rgba(32, 55, 70, 0.08);
-  --shadow-lg: 0 18px 45px rgba(32, 55, 70, 0.12);
-  --shadow-card: 0 16px 36px rgba(32, 55, 70, 0.07);
-  --shadow-button: 0 6px 20px rgba(56, 109, 131, 0.32);
+  /* ── Shadows ── */
+  --shadow-xs:           0 1px 4px rgba(23, 56, 45, 0.04);
+  --shadow-sm:           0 2px 8px rgba(23, 56, 45, 0.05);
+  --shadow-md:           0 8px 24px rgba(23, 56, 45, 0.07);
+  --shadow-lg:           0 18px 45px rgba(23, 56, 45, 0.1);
+  --shadow-card:         0 12px 36px rgba(23, 56, 45, 0.06);
+  --shadow-button:       0 6px 20px rgba(35, 75, 60, 0.25);
+  --shadow-gold-btn:     0 6px 20px rgba(195, 165, 116, 0.3);
 
-  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  /* ── Typography Fonts ── */
+  --font-serif:          'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:           'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:           'JetBrains Mono', monospace;
+  --font-crest:          'Cinzel', serif;
+
+  /* ── Radius System ── */
+  --radius-xs:           6px;
+  --radius-sm:           10px;
+  --radius-md:           16px;
+  --radius-lg:           22px;
+  --radius-xl:           30px;
+  --radius-full:         9999px;
+
+  /* ── Transitions ── */
+  --transition-fast:     0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth:   0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow:     0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Compatibility Aliases (Seamlessly maps previous color tokens) ── */
+  --light-bg:            var(--bg-primary);
+  --bg-page:             var(--bg-primary);
+  --bg-surface:          var(--bg-card);
+  --bg-sand:             var(--bg-secondary);
+  --ocean-blue:          var(--forest-green);
+  --ocean-blue-hover:    var(--forest-green-hover);
+  --sky-blue:            var(--sage);
+  --sky-blue-light:      var(--sage-light);
+  --deep-navy:           var(--deep-green);
+  --deep-navy-dark:      var(--deep-green-dark);
+  --coral:               var(--champagne-gold);
+  --coral-hover:         var(--gold-dark);
+  --warm-sand:           var(--bg-secondary);
+  --text-main:           var(--text-primary);
+  --gold-accent:         var(--champagne-gold);
+  --obsidian:            var(--deep-green);
+  --emerald:             var(--forest-green);
+  --emerald-bright:      #2A6350;
+  --ivory:               var(--bg-primary);
+  --surface-0:           var(--bg-primary);
+  --surface-1:           var(--bg-secondary);
+  --surface-2:           var(--bg-card);
+  --surface-3:           var(--bg-card-warm);
+  --surface-glass:       rgba(255, 255, 255, 0.85);
 }
 
+/* ── Reset & Box Sizing ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -100,56 +134,73 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 86px;
   font-size: 16px;
-  background-color: var(--light-bg);
-  color: var(--deep-navy);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 body {
   margin: 0;
-  padding: 0;
   width: 100%;
   max-width: 100%;
-  min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.65;
-  background-color: var(--light-bg);
-  color: var(--deep-navy);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* Custom Mediterranean Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--light-bg);
-}
-
+/* ── Refined Custom Scrollbar ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
 ::-webkit-scrollbar-thumb {
-  background: var(--sky-blue);
-  border-radius: 5px;
-  border: 2px solid var(--light-bg);
+  background: var(--sage);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--forest-green); }
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ocean-blue);
+/* ── Typography Defaults ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
-/* Accessible focus styling */
-:focus-visible {
-  outline: 2px solid var(--ocean-blue);
-  outline-offset: 3px;
+p {
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
-/* Selection highlight */
-::selection {
-  background-color: var(--sky-blue);
-  color: var(--deep-navy);
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--forest-green);
+  outline-offset: 2px;
 }

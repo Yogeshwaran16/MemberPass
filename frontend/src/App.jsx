@@ -142,12 +142,12 @@ export default function App() {
           >
             <span className="coastal-emblem">
               <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
-                <circle cx="20" cy="20" r="19" fill="#F6F9F8" stroke="#B8D6DF" strokeWidth="1.5" />
-                <circle cx="20" cy="13" r="4.5" fill="#D98D70" />
-                <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#386D83" />
-                <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#386D83" opacity="0.8" />
-                <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#386D83" opacity="0.8" />
-                <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#D98D70" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="20" cy="20" r="19" fill="#F7F5EF" stroke="#C3A574" strokeWidth="1.5" />
+                <circle cx="20" cy="13" r="4.5" fill="#C3A574" />
+                <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#234B3C" />
+                <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#234B3C" opacity="0.85" />
+                <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#234B3C" opacity="0.85" />
+                <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#C3A574" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             </span>
             <div className="brand-text">
@@ -178,6 +178,15 @@ export default function App() {
               About
             </a>
             <a
+              href="#plans"
+              onClick={() => {
+                if (currentView !== 'landing') setCurrentView('landing')
+                setMobileMenuOpen(false)
+              }}
+            >
+              Membership
+            </a>
+            <a
               href="#features"
               onClick={() => {
                 if (currentView !== 'landing') setCurrentView('landing')
@@ -187,22 +196,13 @@ export default function App() {
               Features
             </a>
             <a
-              href="#plans"
+              href="#about"
               onClick={() => {
                 if (currentView !== 'landing') setCurrentView('landing')
                 setMobileMenuOpen(false)
               }}
             >
-              Membership Plans
-            </a>
-            <a
-              href="#workflow"
-              onClick={() => {
-                if (currentView !== 'landing') setCurrentView('landing')
-                setMobileMenuOpen(false)
-              }}
-            >
-              How It Works
+              Wellness
             </a>
             <button
               type="button"
@@ -400,13 +400,11 @@ export default function App() {
                 <h1 className="hero-headline">
                   Find Your Balance.
                   <br />
-                  <span className="serif-highlight">Embrace Your Wellness.</span>
+                  <span className="serif-highlight">Elevate Your Wellbeing.</span>
                 </h1>
 
                 <p className="hero-description">
-                  Experience serene coastal yoga sessions, mindful meditation retreats, and effortless
-                  digital membership access. MemberPass seamlessly unifies smart digital passes, class
-                  schedules, and personalized wellness journeys across the sun-drenched Mediterranean coast.
+                  Discover a more mindful lifestyle with personalized wellness experiences, exclusive membership benefits and a sanctuary designed for your wellbeing.
                 </p>
 
                 <div className="hero-ctas">
@@ -414,8 +412,8 @@ export default function App() {
                     <span>Explore Membership</span>
                     <span className="btn-arrow">→</span>
                   </a>
-                  <a href="#workflow" className="btn-secondary btn-lg">
-                    <span>Discover Our Classes</span>
+                  <a href="#about" className="btn-secondary btn-lg">
+                    <span>Discover Wellness</span>
                     <span className="btn-chevron">▾</span>
                   </a>
                 </div>
@@ -423,7 +421,7 @@ export default function App() {
                 <div className="hero-trust-bar">
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
-                    <span>99.8% Verification Accuracy</span>
+                    <span>2,400+ Active Members</span>
                   </div>
                   <div className="trust-divider"></div>
                   <div className="trust-pill">
@@ -433,7 +431,7 @@ export default function App() {
                   <div className="trust-divider"></div>
                   <div className="trust-pill">
                     <span className="pill-check">✓</span>
-                    <span>35+ Weekly Coastal Sessions</span>
+                    <span>18,500+ Guided Sessions</span>
                   </div>
                 </div>
               </div>
@@ -487,50 +485,56 @@ export default function App() {
           <section className="stats-strip">
             <div className="stats-inner">
               <div className="stat-card">
-                <span className="stat-number">99.8%</span>
-                <span className="stat-label">Membership Verification Accuracy</span>
-                <p className="stat-detail">Seamless QR pass scanning and error-free attendance authentication</p>
+                <span className="stat-number">2,400+</span>
+                <span className="stat-label">Active Members</span>
+                <p className="stat-detail">Mindful practitioners participating in daily yoga and meditation sessions</p>
               </div>
               <div className="stat-divider-vertical"></div>
               <div className="stat-card">
-                <span className="stat-number">3.5×</span>
-                <span className="stat-label">Faster Member Check-ins</span>
-                <p className="stat-detail">Instant digital pass check-ins eliminating front-desk queues</p>
+                <span className="stat-number">18,500+</span>
+                <span className="stat-label">Wellness Sessions</span>
+                <p className="stat-detail">Guided studio practices and personalized wellness experiences hosted</p>
               </div>
               <div className="stat-divider-vertical"></div>
               <div className="stat-card">
-                <span className="stat-number">24/7</span>
-                <span className="stat-label">Digital Membership Access</span>
-                <p className="stat-detail">Always-on member portal for pass viewing, renewal, and session tracking</p>
+                <span className="stat-number">15+</span>
+                <span className="stat-label">Membership Benefits</span>
+                <p className="stat-detail">Exclusive passes, priority bookings, and private wellness consultations</p>
+              </div>
+              <div className="stat-divider-vertical"></div>
+              <div className="stat-card">
+                <span className="stat-number">99.4%</span>
+                <span className="stat-label">Member Satisfaction</span>
+                <p className="stat-detail">Rated by sanctuary practitioners for seamless QR digital check-in poise</p>
               </div>
             </div>
           </section>
 
           {/* =========================================================================
-            3. ABOUT SECTION - MEDITERRANEAN COASTAL RETREAT PHILOSOPHY
+            3. ABOUT SECTION - MODERN WELLNESS SANCTUARY
             ========================================================================= */}
           <section className="section-padding about-section" id="about">
             <div className="section-header text-center">
               <span className="section-kicker">ABOUT MEMBERPASS</span>
-              <h2 className="section-heading">Where Mindfulness Meets Coastal Tranquility</h2>
+              <h2 className="section-heading">Where Mindfulness Meets Modern Sanctuary</h2>
               <p className="section-subtext">
                 Traditional studios are encumbered by paper sign-in sheets, fragmented rosters,
-                and manual class counting. MemberPass creates an uncompromising, peaceful ecosystem
-                engineered specifically for modern yoga centres and Mediterranean wellness sanctuaries.
+                and manual class counting. MemberPass combines intelligent assistance with organized
+                membership information, creating a serene, simple and efficient digital experience for practitioners.
               </p>
             </div>
 
-            {/* Coastal Banner Image */}
+            {/* Sanctuary Banner Image */}
             <div className="about-hero-banner">
               <img
                 src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=85"
-                alt="Mindful coastal yoga meditation by the Mediterranean sea"
+                alt="Mindful yoga sanctuary meditation"
                 className="about-banner-img"
                 loading="lazy"
               />
               <div className="about-banner-caption">
                 <h3>Where Ancient Mindfulness Meets Cutting-Edge Technology</h3>
-                <p>Designed for yoga studios, wellness resorts, and holistic healing communities.</p>
+                <p>Designed for yoga studios, wellness sanctuaries, and holistic healing communities.</p>
               </div>
             </div>
 
@@ -539,10 +543,10 @@ export default function App() {
                 <div className="box-icon">
                   <i className="fa-solid fa-gem"></i>
                 </div>
-                <h3 className="box-title">Premium Coastal Yoga Experience</h3>
+                <h3 className="box-title">Sacred Sanctuary Experience</h3>
                 <p className="box-desc">
                   Elevate your practitioner touchpoints from their very first class. Deliver serene,
-                  contactless digital QR passes that reflect the calm beauty of your seaside space.
+                  contactless digital QR passes that reflect the calm beauty of your sanctuary space.
                 </p>
               </div>
 
@@ -942,63 +946,70 @@ export default function App() {
           </section>
 
           {/* =========================================================================
-            7. HOW IT WORKS SECTION
+            7. HOW IT WORKS SECTION (5-STEP WELLNESS JOURNEY)
             ========================================================================= */}
           <section className="section-padding workflow-section" id="workflow">
             <div className="section-header text-center">
-              <span className="section-kicker">THE WORKFLOW</span>
-              <h2 className="section-heading">Your Wellness Journey in Four Simple Steps</h2>
+              <span className="section-kicker">THE WELLNESS JOURNEY</span>
+              <h2 className="section-heading">Your Pathway in Five Mindful Steps</h2>
               <p className="section-subtext">
-                A serene, modern pathway from studio enrollment to daily class attendance.
+                A serene, modern pathway from discovering your sanctuary to enjoying your daily practice.
               </p>
             </div>
 
-            <div className="workflow-steps-grid">
+            <div className="workflow-steps-grid workflow-5-steps">
               <div className="workflow-step">
                 <div className="step-numeral">01</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-cloud-arrow-up"></i>
+                  <i className="fa-solid fa-compass"></i>
                 </div>
-                <h3 className="step-title">Join the Sanctuary</h3>
+                <h3 className="step-title">Discover Membership</h3>
                 <p className="step-desc">
-                  Create your practitioner account online in under a minute with just your name, email,
-                  and phone number.
+                  Explore our sanctuary tiers and select the path that aligns with your practice.
                 </p>
               </div>
 
               <div className="workflow-step">
                 <div className="step-numeral">02</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-gears"></i>
+                  <i className="fa-solid fa-layer-group"></i>
                 </div>
-                <h3 className="step-title">Choose Your Pass</h3>
+                <h3 className="step-title">Choose Your Plan</h3>
                 <p className="step-desc">
-                  Select the membership tier that suits your practice—Basic (10 classes), Standard (25 classes),
-                  or Premium (unlimited sessions).
+                  Select Basic (10 sessions), Standard (25 sessions), or Premium unlimited immersion.
                 </p>
               </div>
 
               <div className="workflow-step">
                 <div className="step-numeral">03</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-id-card"></i>
+                  <i className="fa-solid fa-shield-halved"></i>
                 </div>
-                <h3 className="step-title">Receive Your Digital QR Pass</h3>
+                <h3 className="step-title">Activate Your Membership</h3>
                 <p className="step-desc">
-                  Instantly generate your personalized digital QR pass with encrypted pass code,
-                  ready to display on any mobile device.
+                  Complete seamless, secure online membership onboarding with instant confirmation.
                 </p>
               </div>
 
               <div className="workflow-step">
                 <div className="step-numeral">04</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-chart-pie"></i>
+                  <i className="fa-solid fa-qrcode"></i>
                 </div>
-                <h3 className="step-title">Attend Classes &amp; Flourish</h3>
+                <h3 className="step-title">Access Your Digital Pass</h3>
                 <p className="step-desc">
-                  Present your QR code at the coastal deck or studio entrance for rapid scan-in, attend your yoga sessions,
-                  and track remaining classes in real time.
+                  Instantly receive your personalized cryptographic QR pass on your mobile device.
+                </p>
+              </div>
+
+              <div className="workflow-step">
+                <div className="step-numeral">05</div>
+                <div className="step-icon">
+                  <i className="fa-solid fa-spa"></i>
+                </div>
+                <h3 className="step-title">Enjoy Your Wellness Journey</h3>
+                <p className="step-desc">
+                  Scan in effortlessly at studio check-in, attend your yoga sessions, and flourish.
                 </p>
               </div>
             </div>
@@ -1109,7 +1120,7 @@ export default function App() {
       )}
 
       {/* =========================================================================
-          9. MEDITERRANEAN DEEP NAVY FOOTER
+          9. PREMIUM EDITORIAL SANCTUARY FOOTER
           ========================================================================= */}
       <footer className="med-footer">
         <div className="footer-inner">
@@ -1118,12 +1129,12 @@ export default function App() {
               <a href="#home" className="brand-logo footer-logo" onClick={scrollToTop}>
                 <span className="coastal-emblem light">
                   <svg viewBox="0 0 40 40" fill="none" className="emblem-svg">
-                    <circle cx="20" cy="20" r="19" fill="#203746" stroke="#386D83" strokeWidth="1.5" />
-                    <circle cx="20" cy="13" r="4.5" fill="#D98D70" />
-                    <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#B8D6DF" />
-                    <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#386D83" />
-                    <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#386D83" />
-                    <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#E9D8C2" strokeWidth="1.5" strokeLinecap="round" />
+                    <circle cx="20" cy="20" r="19" fill="#17382D" stroke="#C3A574" strokeWidth="1.5" />
+                    <circle cx="20" cy="13" r="4.5" fill="#C3A574" />
+                    <path d="M20 16C18.5 20 16.5 24 16.5 27C16.5 29 18 30.5 20 30.5C22 30.5 23.5 29 23.5 27C23.5 24 21.5 20 20 16Z" fill="#A9B8A3" />
+                    <path d="M16 21C12.5 22 9.5 25 10 28C11 30 13.5 30.5 15.5 29C17 28 17.5 24 16 21Z" fill="#234B3C" />
+                    <path d="M24 21C27.5 22 30.5 25 30 28C29 30 26.5 30.5 24.5 29C23 28 22.5 24 24 21Z" fill="#234B3C" />
+                    <path d="M12 32C15 33.5 25 33.5 28 32" stroke="#C3A574" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </span>
                 <div className="brand-text">
@@ -1132,11 +1143,11 @@ export default function App() {
                 </div>
               </a>
               <p className="footer-tagline">
-                The premier digital identity, class tracking, and membership management platform for contemporary yoga studios and Mediterranean wellness communities.
+                The premier digital identity, class tracking, and membership management platform for contemporary yoga studios, wellness sanctuaries, and retreats.
               </p>
               <div className="footer-sanctuary-status">
                 <span className="status-live-dot"></span>
-                <span>Coastal Sanctuary Network Operational</span>
+                <span>Sanctuary Network Live &amp; Verified</span>
               </div>
             </div>
 
@@ -1147,7 +1158,7 @@ export default function App() {
                 <li><a href="#about">About MemberPass</a></li>
                 <li><a href="#features">Curated Capabilities</a></li>
                 <li><a href="#plans">Membership Plans</a></li>
-                <li><a href="#workflow">How It Works</a></li>
+                <li><a href="#workflow">Wellness Journey</a></li>
                 <li>
                   <a
                     href="#ai-assistant"
@@ -1156,7 +1167,7 @@ export default function App() {
                       setCurrentView('ai')
                       scrollToTop()
                     }}
-                    style={{ color: 'var(--coral)', fontWeight: '600' }}
+                    style={{ color: 'var(--champagne-gold)', fontWeight: '600' }}
                   >
                     ✦ Dedicated AI Assistant
                   </a>
@@ -1181,14 +1192,14 @@ export default function App() {
                 Certified sub-second optical QR check-in. Real-time class capacity management and encrypted member data protection.
               </p>
               <div className="footer-pill-badge">
-                <span>MEDITERRANEAN SANCTUARY • ISO 27001</span>
+                <span>PREMIUM WELLNESS SANCTUARY • ISO 27001</span>
               </div>
             </div>
           </div>
 
           <div className="footer-bottom-row">
             <p className="copyright-text">
-              © 2026 <strong>MemberPass</strong>. All rights reserved. Mediterranean Coastal Wellness Yoga Platform.
+              © 2026 <strong>MemberPass</strong>. All rights reserved. Premium Yoga &amp; Wellness Membership Platform.
             </p>
             <div className="footer-legal-links">
               <a href="#home">Privacy Policy</a>
