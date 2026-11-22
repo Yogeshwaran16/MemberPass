@@ -274,6 +274,11 @@ main {
   color: var(--champagne-gold);
 }
 
+/* Mobile CTA Wrap - Hidden by default on desktop to avoid duplicate CTAs */
+.mobile-cta-wrap {
+  display: none;
+}
+
 /* Nav Actions */
 .nav-actions {
   display: flex;
@@ -2801,6 +2806,18 @@ main {
     box-shadow: 0 16px 36px rgba(23, 56, 45, 0.1);
   }
   .nav-links.open { display: flex; }
+
+  .mobile-cta-wrap {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(35, 75, 60, 0.1);
+  }
+  .mobile-cta-wrap .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
 
   .features-quad-grid { grid-template-columns: 1fr; }
   .plans-triptych-grid {
