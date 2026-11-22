@@ -1,4 +1,3 @@
-
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
@@ -15,25 +14,41 @@ if (!process.env.MONGO_URI) {
 
 const connectDB = require("./config/db");
 
+const startMembershipPauseJob = require("./jobs/membershipPauseJob");
+
+const {
+  startMembershipExpiryJob
+} = require("./jobs/membershipExpiryJob");
+
 const app = express();
 
-// Allowed frontend origins
+// ======================================================
+// CORS - Ranjith MemberPass Project
+// ======================================================
+
 const allowedOrigins = [
-  "https://member-pass-one.vercel.app",
+  // Production frontends
+  "https://member-pass.vercel.app",
+  "https://member-pass-psi.vercel.app",
+
+  // Local development
   "http://localhost:5173",
-  "http://127.0.0.1:5173"
+  "http://localhost:5174",
+  "http://localhost:5175",
+
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174",
+  "http://127.0.0.1:5175"
 ];
 
-// CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests without Origin header
-    // and requests from approved frontend URLs
+    // Allow server-to-server requests and approved frontends
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
-    console.error(`CORS blocked for origin: ${origin}`);
+    console.warn("Blocked CORS origin:", origin);
 
     return callback(
       new Error(`CORS blocked for origin: ${origin}`)
@@ -57,20 +72,60 @@ const corsOptions = {
   credentials: true
 };
 
-// Middleware
+// Apply CORS middleware
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// API Routes
+// ======================================================
+// Razorpay Webhook
+// Raw body must be preserved for signature verification
+// ======================================================
+
+const {
+  handleRazorpayWebhook
+} = require("./controllers/webhookController");
+
+app.post(
+  "/api/payments/webhook",
+  express.raw({ type: "*/*" }),
+  handleRazorpayWebhook
+);
+
+// ======================================================
+// Normal Body Parsers
+// ======================================================
+
+app.use(express.json());
+
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
+
+// ======================================================
+// API ROUTES
+// ======================================================
+
 app.use("/api/auth", require("./routes/authRoutes"));
+
 app.use("/api/plans", require("./routes/planRoutes"));
+
 app.use("/api/payments", require("./routes/paymentRoutes"));
+
 app.use("/api/member", require("./routes/memberRoutes"));
+
 app.use("/api/qr", require("./routes/qrRoutes"));
+
 app.use("/api/ai", require("./routes/aiRoutes"));
 
-// Home Route
+app.use("/api/absentees", require("./routes/absenteeRoutes"));
+
+app.use("/api/reminders", require("./routes/reminderRoutes"));
+
+// ======================================================
+// HOME ROUTE
+// ======================================================
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -78,7 +133,10 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health Check Route
+// ======================================================
+// HEALTH CHECK
+// ======================================================
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
@@ -86,7 +144,10 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// 404 Handler
+// ======================================================
+// 404 HANDLER
+// ======================================================
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -94,7 +155,10 @@ app.use((req, res) => {
   });
 });
 
-// Error Handler
+// ======================================================
+// ERROR HANDLER
+// ======================================================
+
 app.use((err, req, res, next) => {
   console.error("Server Error:", err.message);
 
@@ -111,15 +175,25 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
+// ======================================================
+// START SERVER
+// ======================================================
+
 const startServer = async () => {
   try {
     await connectDB();
+
+    // Membership pause background job
+    startMembershipPauseJob();
+
+    // Membership expiry background job
+    startMembershipExpiryJob();
 
     const PORT = process.env.PORT || 5000;
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
+
       console.log("CORS enabled for:");
 
       allowedOrigins.forEach((origin) => {
@@ -128,7 +202,11 @@ const startServer = async () => {
     });
 
   } catch (error) {
-    console.error("Server startup failed:", error.message);
+    console.error(
+      "Server startup failed:",
+      error.message
+    );
+
     process.exit(1);
   }
 };
