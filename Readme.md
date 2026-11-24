@@ -4,9 +4,9 @@
 
 ## 🌐 Live Demo
 
-- **Live Website:** https://member-pass-psi.vercel.app/
-- **Project Drive:** https://drive.google.com/file/d/1kD_DCgDPRJ4E2bNUgRUM0zv5mxd_lEv0/view?usp=sharing
-- **AI Assistant Demo:** https://drive.google.com/file/d/1jRWnra7mDqcQVUyQKUA1XvM04d2AKuk5/view?usp=sharing
+- **Live Website:** [https://member-pass-one.vercel.app/](https://member-pass-one.vercel.app/)
+- **Project Drive:** [View Project Drive](https://drive.google.com/file/d/1ouJMw_JM269OKIQe2eAkfXXbVzZPLNl1/view?usp=drive_link)
+- **AI Assistant Demo:** [View AI Assistant Demo](https://drive.google.com/file/d/1fwrtrS6UBK4WVvcbqdWlY_ruVN5VwnjH/view?usp=sharing)
 
 ---
 
@@ -60,31 +60,31 @@ MemberPass aims to deliver a seamless experience for both members and administra
 
 ### 1. Clone the Repository
 
-```bash
+\`\`\`bash
 git clone https://github.com/sweswar1614/Memberpass.git
-```
+\`\`\`
 
 ### 2. Navigate to the Project
 
-```bash
+\`\`\`bash
 cd Memberpass
-```
+\`\`\`
 
 ### 3. Install Frontend Dependencies
 
-```bash
+\`\`\`bash
 cd frontend
 npm install
-```
+\`\`\`
 
 ### 4. Install Backend Dependencies
 
 Open another terminal:
 
-```bash
+\`\`\`bash
 cd backend
 npm install
-```
+\`\`\`
 
 ### 5. Configure Environment Variables
 
@@ -101,25 +101,25 @@ These may include:
 
 ### 6. Run the Backend
 
-```bash
+\`\`\`bash
 cd backend
 npm run dev
-```
+\`\`\`
 
 ### 7. Run the Frontend
 
-```bash
+\`\`\`bash
 cd frontend
 npm run dev
-```
+\`\`\`
 
 Open the local URL displayed in the frontend terminal to access the application.
 
 ## 🔗 Project Links
 
-- **Live Website:** https://member-pass-psi.vercel.app/
-- **Project Drive:** https://drive.google.com/file/d/1kD_DCgDPRJ4E2bNUgRUM0zv5mxd_lEv0/view?usp=sharing
-- **AI Assistant Demo:** https://drive.google.com/file/d/1jRWnra7mDqcQVUyQKUA1XvM04d2AKuk5/view?usp=sharing
+- **Live Website:** https://member-pass-one.vercel.app/
+- **Project Drive:** https://drive.google.com/file/d/1ouJMw_JM269OKIQe2eAkfXXbVzZPLNl1/view?usp=drive_link
+- **AI Assistant Demo:** https://drive.google.com/file/d/1fwrtrS6UBK4WVvcbqdWlY_ruVN5VwnjH/view?usp=sharing
 - **GitHub Repository:** https://github.com/sweswar1614/Memberpass
 
 ## 🔮 Future Enhancements
