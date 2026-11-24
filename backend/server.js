@@ -30,6 +30,9 @@ const allowedOrigins = [
   // Production frontend
   "https://member-pass-one.vercel.app",
 
+  // Environment-configured frontend URL (if provided)
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL.replace(/\/$/, "")] : []),
+
   // Local development
   "http://localhost:5173",
   "http://localhost:5174",

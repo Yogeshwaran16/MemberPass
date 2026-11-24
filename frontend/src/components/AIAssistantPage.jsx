@@ -325,7 +325,7 @@ export default function AIAssistantPage({
                 </p>
 
                 {/* 5 Suggested Question Cards in 2-Column Responsive Grid */}
-                <div className="suggestions-section" style={{ width: '100%', marginTop: '28px' }}>
+                <div className="suggestions-section">
                   <div className="suggestions-label-strip">
                     <span className="suggestions-heading">
                       <i className="fa-solid fa-wand-magic-sparkles" />

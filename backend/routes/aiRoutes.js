@@ -230,7 +230,7 @@ We will send renewal notifications to your registered email before expiry so you
     ) {
       let plans = [];
       try {
-        plans = await Plan.find({ isActive: true }).sort({ price: 1 });
+        plans = await Plan.find({ isActive: true }).sort({ priceInPaise: 1 });
       } catch (e) {
         // Fallback plans if db query fails
       }
@@ -238,10 +238,12 @@ We will send renewal notifications to your registered email before expiry so you
       if (plans.length > 0) {
         const planList = plans
           .map(
-            (p, idx) =>
-              `${idx + 1}. **${p.name} Plan** — ₹${(p.price || 0).toLocaleString("en-IN")} for ${p.durationDays} Days\n   • Classes: ${
+            (p, idx) => {
+              const displayPrice = p.priceInPaise ? (p.priceInPaise / 100).toLocaleString("en-IN") : (p.price || 0).toLocaleString("en-IN");
+              return `${idx + 1}. **${p.name} Plan** — ₹${displayPrice} for ${p.durationDays} Days\n   • Classes: ${
                 p.classLimit ? `${p.classLimit} classes` : "Unlimited sessions"
-              }\n   • ${p.description || "Full access with encrypted digital QR pass"}`
+              }\n   • ${p.description || "Full access with encrypted digital QR pass"}`;
+            }
           )
           .join("\n\n");
 
@@ -283,10 +285,10 @@ You can select and activate any plan with secure Razorpay test checkout under th
 
 1. Log in and navigate to your **Member Dashboard**.
 2. Locate the **Membership Status** card on your dashboard.
-3. Click the **Pause Membership** button.
-4. While paused, your expiration countdown stops and class usage is temporarily suspended until you choose to resume.
+3. Click the **Pause Membership** button and choose your pause duration (between 1 and 15 days).
+4. While paused, your expiration countdown stops, your expiry date is extended by the exact paused duration, and class usage is temporarily suspended until resumed.
 
-*Members can pause an active pass once per billing cycle at no extra charge.*`
+*Policy: Members can pause an active pass once per calendar year for 1 to 15 days at no extra charge.*`
       });
     }
 
