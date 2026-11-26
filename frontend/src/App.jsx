@@ -1,13 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import './App.css'
-import AuthModal from './components/AuthModal'
 import PlansSection from './components/PlansSection'
-import MemberDashboard from './components/MemberDashboard'
-import QRPassModal from './components/QRPassModal'
-import StaffDashboard from './components/StaffDashboard'
-import AIAssistantPage from './components/AIAssistantPage'
 import DigitalPassCard from './components/DigitalPassCard'
 import { getStoredUser, authApi, aiApi } from './services/api'
+
+// Lazy-loaded components to optimize initial landing page bundle and eliminate unused JS
+const StaffDashboard = lazy(() => import('./components/StaffDashboard'))
+const MemberDashboard = lazy(() => import('./components/MemberDashboard'))
+const AIAssistantPage = lazy(() => import('./components/AIAssistantPage'))
+const AuthModal = lazy(() => import('./components/AuthModal'))
+const QRPassModal = lazy(() => import('./components/QRPassModal'))
+
+// Lightweight, accessible loading fallback matching the Sanctuary aesthetic
+const LoadingFallback = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+      <div style={{ width: '36px', height: '36px', border: '3px solid rgba(36, 75, 60, 0.15)', borderTopColor: '#244B3C', borderRadius: '50%', animation: 'rotateSlow 1s linear infinite' }} />
+      <span style={{ fontSize: '0.85rem', color: '#777970', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em' }}>Loading...</span>
+    </div>
+  </div>
+)
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(getStoredUser())
@@ -332,56 +344,60 @@ export default function App() {
 
       {currentView === 'ai' ? (
         <main className="main-viewport">
-          <AIAssistantPage
-            currentUser={currentUser}
-            onNavigateHome={() => {
-              setCurrentView('landing')
-              scrollToTop()
-            }}
-            onNavigateDashboard={() => {
-              if (currentUser) {
-                setCurrentView('dashboard')
-              } else {
-                setAuthModalMode('login')
+          <Suspense fallback={<LoadingFallback />}>
+            <AIAssistantPage
+              currentUser={currentUser}
+              onNavigateHome={() => {
+                setCurrentView('landing')
+                scrollToTop()
+              }}
+              onNavigateDashboard={() => {
+                if (currentUser) {
+                  setCurrentView('dashboard')
+                } else {
+                  setAuthModalMode('login')
+                  setAuthModalOpen(true)
+                }
+                scrollToTop()
+              }}
+              onOpenAuthModal={(mode = 'login') => {
+                setAuthModalMode(mode)
                 setAuthModalOpen(true)
-              }
-              scrollToTop()
-            }}
-            onOpenAuthModal={(mode = 'login') => {
-              setAuthModalMode(mode)
-              setAuthModalOpen(true)
-            }}
-          />
+              }}
+            />
+          </Suspense>
         </main>
       ) : currentView === 'dashboard' && currentUser ? (
         <main className="main-viewport">
-          {['staff', 'admin'].includes(currentUser.role) ? (
-            <StaffDashboard
-              currentUser={currentUser}
-              onLogout={handleLogout}
-              onNavigateAI={() => {
-                setCurrentView('ai')
-                scrollToTop()
-              }}
-            />
-          ) : (
-            <MemberDashboard
-              currentUser={currentUser}
-              onLogout={handleLogout}
-              onNavigateToPlans={() => {
-                setCurrentView('landing')
-                setTimeout(() => {
-                  const el = document.getElementById('plans')
-                  el?.scrollIntoView({ behavior: 'smooth' })
-                }, 120)
-              }}
-              onOpenQRModal={() => setQrModalOpen(true)}
-              onNavigateAI={() => {
-                setCurrentView('ai')
-                scrollToTop()
-              }}
-            />
-          )}
+          <Suspense fallback={<LoadingFallback />}>
+            {['staff', 'admin'].includes(currentUser.role) ? (
+              <StaffDashboard
+                currentUser={currentUser}
+                onLogout={handleLogout}
+                onNavigateAI={() => {
+                  setCurrentView('ai')
+                  scrollToTop()
+                }}
+              />
+            ) : (
+              <MemberDashboard
+                currentUser={currentUser}
+                onLogout={handleLogout}
+                onNavigateToPlans={() => {
+                  setCurrentView('landing')
+                  setTimeout(() => {
+                    const el = document.getElementById('plans')
+                    el?.scrollIntoView({ behavior: 'smooth' })
+                  }, 120)
+                }}
+                onOpenQRModal={() => setQrModalOpen(true)}
+                onNavigateAI={() => {
+                  setCurrentView('ai')
+                  scrollToTop()
+                }}
+              />
+            )}
+          </Suspense>
         </main>
       ) : (
         <main className="main-viewport">
@@ -1253,20 +1269,28 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Authentication Modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        onSuccess={handleAuthSuccess}
-        initialMode={authModalMode}
-      />
+      {/* Authentication Modal - Lazy loaded on demand */}
+      {authModalOpen && (
+        <Suspense fallback={null}>
+          <AuthModal
+            isOpen={authModalOpen}
+            onClose={() => setAuthModalOpen(false)}
+            onSuccess={handleAuthSuccess}
+            initialMode={authModalMode}
+          />
+        </Suspense>
+      )}
 
-      {/* Fullscreen Digital QR Pass Scanner Modal */}
-      <QRPassModal
-        isOpen={qrModalOpen}
-        onClose={() => setQrModalOpen(false)}
-        currentUser={currentUser}
-      />
+      {/* Fullscreen Digital QR Pass Scanner Modal - Lazy loaded on demand */}
+      {qrModalOpen && (
+        <Suspense fallback={null}>
+          <QRPassModal
+            isOpen={qrModalOpen}
+            onClose={() => setQrModalOpen(false)}
+            currentUser={currentUser}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }
