@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import './App.css'
 import PlansSection from './components/PlansSection'
 import DigitalPassCard from './components/DigitalPassCard'
+import Icon from './components/Icon'
 import { getStoredUser, authApi, aiApi } from './services/api'
 
 // Lazy-loaded components to optimize initial landing page bundle and eliminate unused JS
@@ -555,15 +556,15 @@ export default function App() {
                   <p className="arch-desc">From mobile credential issuance to gate check-in and automated retention intelligence.</p>
                 </div>
                 <div className="arch-telemetry-pills">
-                  <span className="arch-pill"><i className="fa-solid fa-bolt"></i> &lt; 400ms Verification</span>
-                  <span className="arch-pill"><i className="fa-solid fa-shield-halved"></i> AES-256 Token Encryption</span>
-                  <span className="arch-pill"><i className="fa-solid fa-server"></i> 99.98% Gateway Uptime</span>
+                  <span className="arch-pill"><Icon className="fa-solid fa-bolt" size={14} /> &lt; 400ms Verification</span>
+                  <span className="arch-pill"><Icon className="fa-solid fa-shield-halved" size={14} /> AES-256 Token Encryption</span>
+                  <span className="arch-pill"><Icon className="fa-solid fa-server" size={14} /> 99.98% Gateway Uptime</span>
                 </div>
               </div>
 
               <div className="arch-flow-diagram">
                 <div className="flow-node">
-                  <div className="node-icon"><i className="fa-solid fa-mobile-screen"></i></div>
+                  <div className="node-icon"><Icon className="fa-solid fa-mobile-screen" size={20} /></div>
                   <span className="node-step">STAGE 01</span>
                   <strong className="node-name">Member Pass</strong>
                   <span className="node-desc">Mobile NFC &amp; Dynamic QR</span>
@@ -571,7 +572,7 @@ export default function App() {
                 <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
 
                 <div className="flow-node">
-                  <div className="node-icon"><i className="fa-solid fa-key"></i></div>
+                  <div className="node-icon"><Icon className="fa-solid fa-key" size={20} /></div>
                   <span className="node-step">STAGE 02</span>
                   <strong className="node-name">Cryptographic Auth</strong>
                   <span className="node-desc">Zero-Trust Identity Engine</span>
@@ -579,7 +580,7 @@ export default function App() {
                 <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
 
                 <div className="flow-node active-node">
-                  <div className="node-icon"><i className="fa-solid fa-qrcode"></i></div>
+                  <div className="node-icon"><Icon className="fa-solid fa-qrcode" size={20} /></div>
                   <span className="node-step">STAGE 03</span>
                   <strong className="node-name">Optical Reader</strong>
                   <span className="node-desc">Sub-Second Gate Clearance</span>
@@ -587,7 +588,7 @@ export default function App() {
                 <div className="flow-connector"><span className="connector-line"></span><span className="connector-arrow">→</span></div>
 
                 <div className="flow-node">
-                  <div className="node-icon"><i className="fa-solid fa-chart-line"></i></div>
+                  <div className="node-icon"><Icon className="fa-solid fa-chart-line" size={20} /></div>
                   <span className="node-step">STAGE 04</span>
                   <strong className="node-name">AI Retention Core</strong>
                   <span className="node-desc">Automated Renewal Signals</span>
@@ -598,7 +599,7 @@ export default function App() {
             <div className="about-grid">
               <div className="about-feature-box">
                 <div className="box-icon">
-                  <i className="fa-solid fa-gem"></i>
+                  <Icon className="fa-solid fa-gem" size={22} />
                 </div>
                 <h3 className="box-title">Frictionless Digital Passes</h3>
                 <p className="box-desc">
@@ -609,7 +610,7 @@ export default function App() {
 
               <div className="about-feature-box">
                 <div className="box-icon">
-                  <i className="fa-solid fa-brain"></i>
+                  <Icon className="fa-solid fa-brain" size={22} />
                 </div>
                 <h3 className="box-title">AI-Powered Member Intelligence</h3>
                 <p className="box-desc">
@@ -620,7 +621,7 @@ export default function App() {
 
               <div className="about-feature-box">
                 <div className="box-icon">
-                  <i className="fa-solid fa-shield-halved"></i>
+                  <Icon className="fa-solid fa-shield-halved" size={22} />
                 </div>
                 <h3 className="box-title">Encrypted Enterprise Security</h3>
                 <p className="box-desc">
@@ -648,7 +649,7 @@ export default function App() {
               {/* Feature 1 */}
               <article className="feature-royal-card">
                 <div className="card-header-icon">
-                  <i className="fa-solid fa-sliders"></i>
+                  <Icon className="fa-solid fa-sliders" size={24} />
                 </div>
                 <span className="card-sub-tag">TIER ALLOCATION</span>
                 <h3 className="feature-card-title">Smart Membership Management</h3>
@@ -666,7 +667,7 @@ export default function App() {
               {/* Feature 2 */}
               <article className="feature-royal-card">
                 <div className="card-header-icon">
-                  <i className="fa-solid fa-robot"></i>
+                  <Icon className="fa-solid fa-robot" size={24} />
                 </div>
                 <span className="card-sub-tag">AI WELLNESS CO-PILOT</span>
                 <h3 className="feature-card-title">AI Yoga Assistant</h3>
@@ -697,7 +698,7 @@ export default function App() {
               {/* Feature 3 */}
               <article className="feature-royal-card">
                 <div className="card-header-icon">
-                  <i className="fa-solid fa-address-book"></i>
+                  <Icon className="fa-solid fa-address-book" size={24} />
                 </div>
                 <span className="card-sub-tag">PRACTITIONER DIRECTORY</span>
                 <h3 className="feature-card-title">Member Information Management</h3>
@@ -715,7 +716,7 @@ export default function App() {
               {/* Feature 4 */}
               <article className="feature-royal-card">
                 <div className="card-header-icon">
-                  <i className="fa-solid fa-chart-line"></i>
+                  <Icon className="fa-solid fa-chart-line" size={24} />
                 </div>
                 <span className="card-sub-tag">REAL-TIME CHECK-IN</span>
                 <h3 className="feature-card-title">Class &amp; Attendance Tracking</h3>
@@ -868,7 +869,7 @@ export default function App() {
                             placeholder="Ask MemberPass AI (e.g. renewals, attendance, yoga passes)..."
                           />
                           <button type="submit" className="chat-send-btn" aria-label="Submit inquiry" disabled={aiLoading}>
-                            <i className="fa-solid fa-paper-plane"></i>
+                            <Icon className="fa-solid fa-paper-plane" size={16} />
                           </button>
                         </form>
                       </div>
@@ -1018,7 +1019,7 @@ export default function App() {
               <div className="workflow-step">
                 <div className="step-numeral">01</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-compass"></i>
+                  <Icon className="fa-solid fa-compass" size={24} />
                 </div>
                 <h3 className="step-title">Discover Membership</h3>
                 <p className="step-desc">
@@ -1029,7 +1030,7 @@ export default function App() {
               <div className="workflow-step">
                 <div className="step-numeral">02</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-layer-group"></i>
+                  <Icon className="fa-solid fa-layer-group" size={24} />
                 </div>
                 <h3 className="step-title">Choose Your Plan</h3>
                 <p className="step-desc">
@@ -1040,7 +1041,7 @@ export default function App() {
               <div className="workflow-step">
                 <div className="step-numeral">03</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-shield-halved"></i>
+                  <Icon className="fa-solid fa-shield-halved" size={24} />
                 </div>
                 <h3 className="step-title">Activate Your Membership</h3>
                 <p className="step-desc">
@@ -1051,7 +1052,7 @@ export default function App() {
               <div className="workflow-step">
                 <div className="step-numeral">04</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-qrcode"></i>
+                  <Icon className="fa-solid fa-qrcode" size={24} />
                 </div>
                 <h3 className="step-title">Access Your Digital Pass</h3>
                 <p className="step-desc">
@@ -1062,7 +1063,7 @@ export default function App() {
               <div className="workflow-step">
                 <div className="step-numeral">05</div>
                 <div className="step-icon">
-                  <i className="fa-solid fa-spa"></i>
+                  <Icon className="fa-solid fa-spa" size={24} />
                 </div>
                 <h3 className="step-title">Enjoy Your Wellness Journey</h3>
                 <p className="step-desc">
@@ -1087,7 +1088,7 @@ export default function App() {
 
                 <div className="contact-meta-list">
                   <div className="contact-meta-item">
-                    <div className="meta-icon"><i className="fa-solid fa-envelope"></i></div>
+                    <div className="meta-icon"><Icon className="fa-solid fa-envelope" size={18} /></div>
                     <div>
                       <span className="meta-caption">CONCIERGE &amp; INQUIRIES</span>
                       <a href="mailto:wellness@memberpass.co" className="meta-link">wellness@memberpass.co</a>
@@ -1095,7 +1096,7 @@ export default function App() {
                   </div>
 
                   <div className="contact-meta-item">
-                    <div className="meta-icon"><i className="fa-solid fa-location-dot"></i></div>
+                    <div className="meta-icon"><Icon className="fa-solid fa-location-dot" size={18} /></div>
                     <div>
                       <span className="meta-caption">SANCTUARY LOCATION</span>
                       <span className="meta-static">Costa Brava Bay &bull; Mediterranean Coast</span>
@@ -1103,7 +1104,7 @@ export default function App() {
                   </div>
 
                   <div className="contact-meta-item">
-                    <div className="meta-icon"><i className="fa-solid fa-clock"></i></div>
+                    <div className="meta-icon"><Icon className="fa-solid fa-clock" size={18} /></div>
                     <div>
                       <span className="meta-caption">STUDIO HOURS</span>
                       <span className="meta-static">Monday &ndash; Sunday: 06:30 &ndash; 20:30 CET</span>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { aiApi } from '../services/api';
 import './AIAssistantPage.css';
+import Icon from './Icon';
 
 export default function AIAssistantPage({
   currentUser,
@@ -200,7 +201,7 @@ export default function AIAssistantPage({
           <div className="ai-context-banner guest" role="note" aria-label="Guest Mode Notice">
             <div className="context-banner-left">
               <div className="context-icon-circle">
-                <i className="fa-solid fa-circle-info" />
+                <Icon className="fa-solid fa-circle-info" size={16} />
               </div>
               <div className="context-text-wrap">
                 <div className="context-label-row">
@@ -217,7 +218,7 @@ export default function AIAssistantPage({
                 className="context-cta-btn"
                 onClick={() => onOpenAuthModal && onOpenAuthModal('login')}
               >
-                <i className="fa-solid fa-arrow-right-to-bracket" />
+                <Icon className="fa-solid fa-arrow-right-to-bracket" size={14} />
                 <span>Sign In to MemberPass</span>
               </button>
             </div>
@@ -226,7 +227,7 @@ export default function AIAssistantPage({
           <div className="ai-context-banner authenticated" role="status" aria-label="Member Authentication Status">
             <div className="context-banner-left">
               <div className="context-icon-circle">
-                <i className="fa-solid fa-circle-check" />
+                <Icon className="fa-solid fa-circle-check" size={16} />
               </div>
               <div className="context-text-wrap">
                 <div className="context-label-row">
@@ -245,7 +246,7 @@ export default function AIAssistantPage({
                   onClick={handleClearChat}
                   title="Clear conversation and start fresh"
                 >
-                  <i className="fa-solid fa-rotate-right" />
+                  <Icon className="fa-solid fa-rotate-right" size={14} />
                   <span>New Chat</span>
                 </button>
               )}
@@ -255,7 +256,7 @@ export default function AIAssistantPage({
                 onClick={onNavigateDashboard}
                 title="Return to your Member Dashboard"
               >
-                <i className="fa-solid fa-gauge-high" />
+                <Icon className="fa-solid fa-gauge-high" size={14} />
                 <span>My Dashboard</span>
               </button>
             </div>
@@ -293,7 +294,7 @@ export default function AIAssistantPage({
                   onClick={handleClearChat}
                   title="Start a fresh conversation"
                 >
-                  <i className="fa-solid fa-arrows-rotate" />
+                  <Icon className="fa-solid fa-arrows-rotate" size={13} />
                   <span>Reset Conversation</span>
                 </button>
               )}
@@ -303,7 +304,7 @@ export default function AIAssistantPage({
                 onClick={onNavigateHome}
                 title="Return to Sanctuary Home"
               >
-                <i className="fa-solid fa-house" />
+                <Icon className="fa-solid fa-house" size={13} />
                 <span>Sanctuary Home</span>
               </button>
             </div>
@@ -317,7 +318,7 @@ export default function AIAssistantPage({
                  ------------------------------------------------------------------- */
               <div className="welcome-intro-block">
                 <div className="welcome-lotus-wrap">
-                  <i className="fa-solid fa-spa" />
+                  <Icon className="fa-solid fa-spa" size={28} />
                 </div>
                 <h2 className="welcome-title">Welcome to your wellness companion.</h2>
                 <p className="welcome-subtitle">
@@ -328,7 +329,7 @@ export default function AIAssistantPage({
                 <div className="suggestions-section">
                   <div className="suggestions-label-strip">
                     <span className="suggestions-heading">
-                      <i className="fa-solid fa-wand-magic-sparkles" />
+                      <Icon className="fa-solid fa-wand-magic-sparkles" size={15} />
                       Suggested Topics
                     </span>
                     <span className="suggestions-tip">Click any card to ask instantly</span>
@@ -345,14 +346,14 @@ export default function AIAssistantPage({
                         title={`Ask: "${prompt.title}"`}
                       >
                         <div className="prompt-icon-bubble">
-                          <i className={`fa-solid ${prompt.icon}`} />
+                          <Icon className={`fa-solid ${prompt.icon}`} size={18} />
                         </div>
                         <div className="prompt-text-group">
                           <span className="prompt-title">{prompt.title}</span>
                           <span className="prompt-desc">{prompt.desc}</span>
                         </div>
                         <div className="prompt-arrow-cue">
-                          <i className="fa-solid fa-chevron-right" />
+                          <Icon className="fa-solid fa-chevron-right" size={12} />
                         </div>
                       </button>
                     ))}
@@ -395,7 +396,7 @@ export default function AIAssistantPage({
                               className="bubble-auth-cta"
                               onClick={() => onOpenAuthModal && onOpenAuthModal('login')}
                             >
-                              <i className="fa-solid fa-arrow-right-to-bracket" />
+                              <Icon className="fa-solid fa-arrow-right-to-bracket" size={14} />
                               <span>Sign In to Access Member Details</span>
                             </button>
                           </div>
@@ -409,7 +410,7 @@ export default function AIAssistantPage({
                               onClick={() => handleCopyMessage(msg.id, msg.text)}
                               title="Copy response to clipboard"
                             >
-                              <i className={`fa-solid ${copiedId === msg.id ? 'fa-check' : 'fa-copy'}`} />
+                              <Icon className={`fa-solid ${copiedId === msg.id ? 'fa-check' : 'fa-copy'}`} size={12} />
                               <span>{copiedId === msg.id ? 'Copied' : 'Copy'}</span>
                             </button>
                           </div>
@@ -464,7 +465,7 @@ export default function AIAssistantPage({
                     onClick={() => handleSendMessage(p.title)}
                     disabled={isLoading}
                   >
-                    <i className={`fa-solid ${p.icon}`} />
+                    <Icon className={`fa-solid ${p.icon}`} size={13} />
                     <span>{p.title}</span>
                   </button>
                 ))}
@@ -502,9 +503,9 @@ export default function AIAssistantPage({
                   title="Send message"
                 >
                   {isLoading ? (
-                    <i className="fa-solid fa-spinner fa-spin" />
+                    <Icon className="fa-solid fa-spinner fa-spin" size={16} />
                   ) : (
-                    <i className="fa-solid fa-paper-plane" />
+                    <Icon className="fa-solid fa-paper-plane" size={16} />
                   )}
                 </button>
               </div>
@@ -514,7 +515,7 @@ export default function AIAssistantPage({
                   Press <kbd>Enter ↵</kbd> to send • <kbd>Shift + Enter</kbd> for new line
                 </span>
                 <span className="privacy-badge">
-                  <i className="fa-solid fa-shield-halved" /> Confidential MemberPass Intelligence
+                  <Icon className="fa-solid fa-shield-halved" size={13} /> Confidential MemberPass Intelligence
                 </span>
               </div>
             </form>
