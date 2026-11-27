@@ -1,8 +1,21 @@
-const API_URL = import.meta.env.VITE_API_URL || 'https://memberpass-2i1w.onrender.com';
+// Sanitize and resolve the API base URL
+// In production: https://memberpass-2i1w.onrender.com/api
+// In local dev: http://localhost:5000/api or relative /api via Vite proxy
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim();
 
-const API_BASE = API_URL.replace(/\/+$/, '').endsWith('/api')
-  ? API_URL.replace(/\/+$/, '')
-  : `${API_URL.replace(/\/+$/, '')}/api`;
+// Strip any trailing slashes and guard against accidental literal 'VITE_API_URL' placeholders
+const cleanUrl = rawApiUrl
+  .replace(/\/+$/, '')
+  .replace(/\/VITE_API_URL$/i, '');
+
+// If VITE_API_URL is empty, invalid, or was set to literal variable name, fall back to Render production
+const resolvedBase = cleanUrl && !cleanUrl.toUpperCase().includes('VITE_API_URL')
+  ? cleanUrl
+  : 'https://memberpass-2i1w.onrender.com';
+
+const API_BASE = resolvedBase.replace(/\/+$/, '').endsWith('/api')
+  ? resolvedBase.replace(/\/+$/, '')
+  : `${resolvedBase.replace(/\/+$/, '')}/api`;
 
 export const setAuthToken = (token) => {
   if (token) {
