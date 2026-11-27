@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   build: {
+    target: 'es2022',
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -14,9 +15,6 @@ export default defineConfig({
             }
             if (id.includes('react') || id.includes('react-dom')) {
               return 'vendor-react'
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons'
             }
           }
         }

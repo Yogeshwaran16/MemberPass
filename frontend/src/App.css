@@ -644,6 +644,9 @@ main {
   height: 460px;
   border: 1px dashed rgba(36, 75, 60, 0.18);
   animation: rotateSlow 60s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .ring-inner {
   width: 340px;
@@ -664,6 +667,8 @@ main {
   max-width: 390px;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   animation: floatMainCard 6s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .floating-card-wrapper:hover {
   transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
@@ -689,6 +694,8 @@ main {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .floating-ui-badge:hover {
   transform: scale(1.03);
@@ -717,6 +724,7 @@ main {
   top: 12px;
   left: -24px;
   animation: floatScanBadge 5s ease-in-out infinite;
+  will-change: transform;
 }
 @keyframes floatScanBadge {
   0%, 100% { transform: translateY(0); }
@@ -740,6 +748,8 @@ main {
   animation: pulseDotGpu 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
   z-index: -1;
   pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 @keyframes pulseDotGpu {
@@ -767,6 +777,7 @@ main {
   color: var(--text-white);
   border-color: rgba(197, 168, 120, 0.4);
   animation: floatAiBadge 5.5s ease-in-out infinite 1s;
+  will-change: transform;
 }
 .badge-ai .badge-title {
   color: var(--champagne-gold);
@@ -788,10 +799,22 @@ main {
   bottom: 85px;
   right: -24px;
   animation: floatUsageBadge 6s ease-in-out infinite 0.5s;
+  will-change: transform;
 }
 @keyframes floatUsageBadge {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-outer,
+  .floating-card-wrapper,
+  .badge-scan,
+  .badge-ai,
+  .badge-usage,
+  .status-pulse-dot::after {
+    animation: none !important;
+  }
 }
 .usage-meter-ring {
   width: 32px;
@@ -867,6 +890,18 @@ main {
 /* ==========================================================================
    4. ABOUT SECTION
    ========================================================================= */
+/* Performance: Defer layout and rendering of below-the-fold sections */
+.about-section,
+.features-section,
+.plans-section,
+.testimonials-section,
+.workflow-section,
+.contact-section,
+.med-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}
+
 .about-section {
   background: var(--bg-primary);
 }
@@ -2295,6 +2330,16 @@ main {
   color: var(--forest-green);
   background: var(--forest-green-light);
 }
+.demo-buttons .demo-pill:last-child:nth-child(odd) {
+  grid-column: span 2;
+  text-align: center;
+}
+.demo-hint {
+  font-size: 0.68rem;
+  color: var(--text-muted, #777970);
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.02em;
+}
 
 /* QR Pass Modal */
 .qr-pass-modal-box {
@@ -2883,5 +2928,6 @@ main {
 
   .dashboard-metrics-grid { grid-template-columns: 1fr; }
   .demo-buttons { grid-template-columns: 1fr; }
+  .demo-buttons .demo-pill:last-child:nth-child(odd) { grid-column: span 1; text-align: left; }
   .workflow-5-steps { grid-template-columns: 1fr; }
 }

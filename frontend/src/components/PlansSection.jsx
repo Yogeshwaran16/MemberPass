@@ -88,10 +88,6 @@ export default function PlansSection({ currentUser, onRequireAuth, onPaymentSucc
   const [processingPayment, setProcessingPayment] = useState(false);
   const [razorpayNotice, setRazorpayNotice] = useState(null);
 
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
   const fetchPlans = async () => {
     try {
       setLoading(true);
@@ -110,6 +106,17 @@ export default function PlansSection({ currentUser, onRequireAuth, onPaymentSucc
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Defer API sync to idle time to prioritize initial paint, Speed Index, and eliminate main-thread TBT
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const handle = window.requestIdleCallback(() => fetchPlans(), { timeout: 2000 });
+      return () => window.cancelIdleCallback(handle);
+    } else {
+      const timer = setTimeout(fetchPlans, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
