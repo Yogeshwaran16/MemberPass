@@ -3,12 +3,11 @@ import './App.css'
 import PlansSection from './components/PlansSection'
 import DigitalPassCard from './components/DigitalPassCard'
 import Icon from './components/Icon'
-import { getStoredUser, authApi, aiApi } from './services/api'
+import { getStoredUser, authApi } from './services/api'
 
 // Lazy-loaded components to optimize initial landing page bundle and eliminate unused JS
 const StaffDashboard = lazy(() => import('./components/StaffDashboard'))
 const MemberDashboard = lazy(() => import('./components/MemberDashboard'))
-const AIAssistantPage = lazy(() => import('./components/AIAssistantPage'))
 const AuthModal = lazy(() => import('./components/AuthModal'))
 const QRPassModal = lazy(() => import('./components/QRPassModal'))
 
@@ -27,18 +26,13 @@ export default function App() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalMode, setAuthModalMode] = useState('login')
   const [qrModalOpen, setQrModalOpen] = useState(false)
-  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard' | 'ai'
+  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard'
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeTab, setActiveTab] = useState('tiers')
   const [selectedPlanToast, setSelectedPlanToast] = useState(null)
   const [contactSubmitted, setContactSubmitted] = useState(false)
-  const [aiQuery, setAiQuery] = useState('')
-  const [aiLoading, setAiLoading] = useState(false)
-  const [aiResponse, setAiResponse] = useState(
-    '“38 esteemed members are scheduled for renewal this week. Automated reminders have been dispatched with an anticipated 98.4% retention rate.”'
-  )
 
   const handleLogout = async () => {
     await authApi.logout()
@@ -76,44 +70,6 @@ export default function App() {
       return () => clearTimeout(timer)
     }
   }, [selectedPlanToast])
-
-  const handleAiAsk = async (question) => {
-    if (!question.trim() || aiLoading) return
-
-    setAiLoading(true)
-
-    try {
-      const data = await aiApi.chat(question)
-
-      if (!data.success) {
-        throw new Error(data.message || 'AI request failed')
-      }
-
-      setAiResponse(data.answer)
-      setAiQuery('')
-    } catch (error) {
-      console.error('MemberPass AI error:', error)
-      setAiResponse('MemberPass AI is ready: 42 yogis verified today, 98.4% retention forecast, and all studio pass scans operating in real time.')
-    } finally {
-      setAiLoading(false)
-    }
-  }
-
-  const handleAiSimulate = (key) => {
-    const prompts = {
-      renewals: 'How can I check membership renewals?',
-      attendance: 'How can I view attendance history?',
-      tiers: 'What membership plans are available?',
-      passes: 'How does the digital QR pass work?'
-    }
-
-    if (prompts[key]) handleAiAsk(prompts[key])
-  }
-
-  const handleCustomAiSubmit = (e) => {
-    e.preventDefault()
-    handleAiAsk(aiQuery)
-  }
 
   const handleContactSubmit = (e) => {
     e.preventDefault()
@@ -216,19 +172,6 @@ export default function App() {
             >
               Wellness
             </a>
-            <button
-              type="button"
-              className={`nav-link-btn nav-link-ai ${currentView === 'ai' ? 'active' : ''}`}
-              onClick={() => {
-                setCurrentView('ai')
-                setMobileMenuOpen(false)
-                scrollToTop()
-              }}
-              title="Open Dedicated AI Assistant"
-            >
-              <span className="nav-ai-sparkle">✦</span>
-              <span>AI Assistant</span>
-            </button>
             <a
               href="#contact"
               onClick={() => {
@@ -343,42 +286,13 @@ export default function App() {
         </div>
       </header>
 
-      {currentView === 'ai' ? (
-        <main className="main-viewport">
-          <Suspense fallback={<LoadingFallback />}>
-            <AIAssistantPage
-              currentUser={currentUser}
-              onNavigateHome={() => {
-                setCurrentView('landing')
-                scrollToTop()
-              }}
-              onNavigateDashboard={() => {
-                if (currentUser) {
-                  setCurrentView('dashboard')
-                } else {
-                  setAuthModalMode('login')
-                  setAuthModalOpen(true)
-                }
-                scrollToTop()
-              }}
-              onOpenAuthModal={(mode = 'login') => {
-                setAuthModalMode(mode)
-                setAuthModalOpen(true)
-              }}
-            />
-          </Suspense>
-        </main>
-      ) : currentView === 'dashboard' && currentUser ? (
+      {currentView === 'dashboard' && currentUser ? (
         <main className="main-viewport">
           <Suspense fallback={<LoadingFallback />}>
             {['staff', 'admin'].includes(currentUser.role) ? (
               <StaffDashboard
                 currentUser={currentUser}
                 onLogout={handleLogout}
-                onNavigateAI={() => {
-                  setCurrentView('ai')
-                  scrollToTop()
-                }}
               />
             ) : (
               <MemberDashboard
@@ -392,10 +306,6 @@ export default function App() {
                   }, 120)
                 }}
                 onOpenQRModal={() => setQrModalOpen(true)}
-                onNavigateAI={() => {
-                  setCurrentView('ai')
-                  scrollToTop()
-                }}
               />
             )}
           </Suspense>
@@ -680,19 +590,6 @@ export default function App() {
                   <li><span className="check-bullet">✓</span> Conversational Query Resolution</li>
                   <li><span className="check-bullet">✓</span> Real-Time Class Attendance Insights</li>
                 </ul>
-                <button
-                  type="button"
-                  className="btn-outline btn-sm"
-                  onClick={() => {
-                    setCurrentView('ai')
-                    scrollToTop()
-                  }}
-                  style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }}
-                >
-                  <span style={{ color: 'var(--coral)' }}>✦</span>
-                  <span>Launch Dedicated AI Assistant Page</span>
-                  <span className="btn-arrow">→</span>
-                </button>
               </article>
 
               {/* Feature 3 */}
@@ -749,14 +646,6 @@ export default function App() {
                     Yoga Tiers
                   </button>
                   <button
-                    className={`tab-btn ${activeTab === 'ai' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('ai')}
-                    role="tab"
-                    aria-selected={activeTab === 'ai'}
-                  >
-                    AI Yoga Assistant
-                  </button>
-                  <button
                     className={`tab-btn ${activeTab === 'telemetry' ? 'active' : ''}`}
                     onClick={() => setActiveTab('telemetry')}
                     role="tab"
@@ -807,71 +696,6 @@ export default function App() {
                             <div className="progress-bar" style={{ width: '72%' }}></div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'ai' && (
-                  <div className="tab-pane-content fade-in">
-                    <div className="pane-split">
-                      <div className="pane-narrative">
-                        <h4>Conversational Studio Intelligence</h4>
-                        <p>
-                          Inquire directly regarding studio attendance, practitioner retention, and class schedules.
-                          Select a prompt below or enter an inquiry:
-                        </p>
-                        <div className="prompt-chips-wrap">
-                          <button className="prompt-pill" onClick={() => handleAiSimulate('renewals')}>
-                            "Who expires this week?"
-                          </button>
-                          <button className="prompt-pill" onClick={() => handleAiSimulate('attendance')}>
-                            "Today's yoga class attendance"
-                          </button>
-                          <button className="prompt-pill" onClick={() => handleAiSimulate('tiers')}>
-                            "Membership tier breakdown"
-                          </button>
-                          <button className="prompt-pill" onClick={() => handleAiSimulate('passes')}>
-                            "Digital QR pass status"
-                          </button>
-                        </div>
-                        <div style={{ marginTop: '18px' }}>
-                          <button
-                            type="button"
-                            className="btn-outline btn-sm"
-                            onClick={() => {
-                              setCurrentView('ai')
-                              scrollToTop()
-                            }}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-                          >
-                            <span style={{ color: 'var(--coral)' }}>✦</span>
-                            <span>Open Dedicated AI Assistant Page</span>
-                            <span className="btn-arrow">→</span>
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="pane-widget chat-container">
-                        <div className="chat-message-bubble">
-                          <div className="chat-avatar-crest">🌊</div>
-                          <div className="chat-message-text">
-                            <span className="chat-author">MemberPass Intelligence:</span>
-                            <p>{aiResponse}</p>
-                          </div>
-                        </div>
-
-                        <form className="console-chat-input" onSubmit={handleCustomAiSubmit}>
-                          <input
-                            type="text"
-                            value={aiQuery}
-                            onChange={(e) => setAiQuery(e.target.value)}
-                            placeholder="Ask MemberPass AI (e.g. renewals, attendance, yoga passes)..."
-                          />
-                          <button type="submit" className="chat-send-btn" aria-label="Submit inquiry" disabled={aiLoading}>
-                            <Icon className="fa-solid fa-paper-plane" size={16} />
-                          </button>
-                        </form>
                       </div>
                     </div>
                   </div>
@@ -1215,19 +1039,6 @@ export default function App() {
                 <li><a href="#features">Curated Capabilities</a></li>
                 <li><a href="#plans">Membership Plans</a></li>
                 <li><a href="#workflow">Wellness Journey</a></li>
-                <li>
-                  <a
-                    href="#ai-assistant"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setCurrentView('ai')
-                      scrollToTop()
-                    }}
-                    style={{ color: 'var(--champagne-gold)', fontWeight: '600' }}
-                  >
-                    ✦ Dedicated AI Assistant
-                  </a>
-                </li>
                 <li><a href="#contact">Contact &amp; Inquiries</a></li>
               </ul>
             </div>
