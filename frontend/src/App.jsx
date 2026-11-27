@@ -8,6 +8,7 @@ import { getStoredUser, authApi } from './services/api'
 // Lazy-loaded components to optimize initial landing page bundle and eliminate unused JS
 const StaffDashboard = lazy(() => import('./components/StaffDashboard'))
 const MemberDashboard = lazy(() => import('./components/MemberDashboard'))
+const AIAssistantPage = lazy(() => import('./components/AIAssistantPage'))
 const AuthModal = lazy(() => import('./components/AuthModal'))
 const QRPassModal = lazy(() => import('./components/QRPassModal'))
 
@@ -26,7 +27,7 @@ export default function App() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalMode, setAuthModalMode] = useState('login')
   const [qrModalOpen, setQrModalOpen] = useState(false)
-  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard'
+  const [currentView, setCurrentView] = useState('landing') // 'landing' | 'dashboard' | 'ai'
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -172,6 +173,19 @@ export default function App() {
             >
               Wellness
             </a>
+            <button
+              type="button"
+              className={`nav-link-btn nav-link-ai ${currentView === 'ai' ? 'active' : ''}`}
+              onClick={() => {
+                setCurrentView('ai')
+                setMobileMenuOpen(false)
+                scrollToTop()
+              }}
+              title="Open Dedicated AI Assistant"
+            >
+              <span className="nav-ai-sparkle">✦</span>
+              <span>AI Assistant</span>
+            </button>
             <a
               href="#contact"
               onClick={() => {
@@ -286,13 +300,42 @@ export default function App() {
         </div>
       </header>
 
-      {currentView === 'dashboard' && currentUser ? (
+      {currentView === 'ai' ? (
+        <main className="main-viewport">
+          <Suspense fallback={<LoadingFallback />}>
+            <AIAssistantPage
+              currentUser={currentUser}
+              onNavigateHome={() => {
+                setCurrentView('landing')
+                scrollToTop()
+              }}
+              onNavigateDashboard={() => {
+                if (currentUser) {
+                  setCurrentView('dashboard')
+                } else {
+                  setAuthModalMode('login')
+                  setAuthModalOpen(true)
+                }
+                scrollToTop()
+              }}
+              onOpenAuthModal={(mode = 'login') => {
+                setAuthModalMode(mode)
+                setAuthModalOpen(true)
+              }}
+            />
+          </Suspense>
+        </main>
+      ) : currentView === 'dashboard' && currentUser ? (
         <main className="main-viewport">
           <Suspense fallback={<LoadingFallback />}>
             {['staff', 'admin'].includes(currentUser.role) ? (
               <StaffDashboard
                 currentUser={currentUser}
                 onLogout={handleLogout}
+                onNavigateAI={() => {
+                  setCurrentView('ai')
+                  scrollToTop()
+                }}
               />
             ) : (
               <MemberDashboard
@@ -306,6 +349,10 @@ export default function App() {
                   }, 120)
                 }}
                 onOpenQRModal={() => setQrModalOpen(true)}
+                onNavigateAI={() => {
+                  setCurrentView('ai')
+                  scrollToTop()
+                }}
               />
             )}
           </Suspense>
@@ -590,6 +637,19 @@ export default function App() {
                   <li><span className="check-bullet">✓</span> Conversational Query Resolution</li>
                   <li><span className="check-bullet">✓</span> Real-Time Class Attendance Insights</li>
                 </ul>
+                <button
+                  type="button"
+                  className="btn-outline btn-sm"
+                  onClick={() => {
+                    setCurrentView('ai')
+                    scrollToTop()
+                  }}
+                  style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }}
+                >
+                  <span style={{ color: 'var(--coral)' }}>✦</span>
+                  <span>Launch Dedicated AI Assistant Page</span>
+                  <span className="btn-arrow">→</span>
+                </button>
               </article>
 
               {/* Feature 3 */}
@@ -1039,6 +1099,19 @@ export default function App() {
                 <li><a href="#features">Curated Capabilities</a></li>
                 <li><a href="#plans">Membership Plans</a></li>
                 <li><a href="#workflow">Wellness Journey</a></li>
+                <li>
+                  <a
+                    href="#ai-assistant"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setCurrentView('ai')
+                      scrollToTop()
+                    }}
+                    style={{ color: 'var(--champagne-gold)', fontWeight: '600' }}
+                  >
+                    ✦ Dedicated AI Assistant
+                  </a>
+                </li>
                 <li><a href="#contact">Contact &amp; Inquiries</a></li>
               </ul>
             </div>
