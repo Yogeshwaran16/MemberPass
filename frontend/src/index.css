@@ -40,14 +40,16 @@
   --gold-light:          #D8BE93;
   --gold-pale:           #F2E8D7;
   --gold-dark:           #A88B58;
+  --gold-accessible:     #8A6421;
+  --gold-text:           #8A6421;
   --gold-muted:          rgba(197, 168, 120, 0.16);
   --gold-border:         rgba(197, 168, 120, 0.32);
 
   /* ── Text System ── */
   --text-primary:        #222820;
   --text-secondary:      #555C55;
-  --text-muted:          #777970;
-  --text-faint:          #9E9F97;
+  --text-muted:          #5A6059;
+  --text-faint:          #727770;
   --text-white:          #FFFFFF;
   --text-on-dark:        #F7F6F2;
 

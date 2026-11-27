@@ -258,7 +258,7 @@ export default function App() {
                     {['staff', 'admin'].includes(currentUser.role) ? ' (Staff)' : ''}
                   </span>
                 </button>
-                <button className="btn-signout" onClick={handleLogout} title="Sign Out">
+                <button className="btn-signout" onClick={handleLogout} title="Sign Out" aria-label="Sign out of account">
                   Sign Out
                 </button>
               </div>
@@ -1143,10 +1143,10 @@ export default function App() {
             </p>
             <div className="footer-legal-links">
               <a href="#home">Privacy Policy</a>
-              <span className="dot-sep">•</span>
+              <span className="dot-sep" aria-hidden="true">•</span>
               <a href="#home">Terms of Sanctuary</a>
-              <span className="dot-sep">•</span>
-              <button onClick={scrollToTop} className="back-top-link">
+              <span className="dot-sep" aria-hidden="true">•</span>
+              <button onClick={scrollToTop} className="back-top-link" aria-label="Scroll back to top">
                 Back to Top ↑
               </button>
             </div>
