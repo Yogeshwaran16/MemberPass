@@ -16,7 +16,7 @@ MemberPass eliminates paper sign-in sheets, fragmented spreadsheets, and manual 
 
 ## 2. Recordings & Demos
 
-- **Project Walkthrough & Feature Demo:** [Watch on Google Drive](https://drive.google.com/file/d/1ouJMw_JM269OKIQe2eAkfXXbVzZPLNl1/view?usp=drive_link)
+- **Project Walkthrough & Feature Demo (2-minute):** [Watch on Google Drive](https://drive.google.com/file/d/1CUbY-3_POvYqSfiJ9Pl7LZ6kgMd1t7Ly/view?usp=drive_link)
 - **AI Assistant Interactive Demo:** [Watch on Google Drive](https://drive.google.com/file/d/1fwrtrS6UBK4WVvcbqdWlY_ruVN5VwnjH/view?usp=sharing)
 
 ---
